@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Rock
+  - Bullet
+  - Enemy
+  - BulletEnemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - rocas
+  - Water
+  - UI
+  - disparo1
+  - disparo2
+  - nave
+  - bulletEnemy
+  - bulletPlayer
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: rocas
+    uniqueID: 1819614619
+    locked: 0
+  - name: disparo2
+    uniqueID: 599109649
+    locked: 0
+  - name: Bullet
+    uniqueID: 1193943731
+    locked: 0
+  - name: BulletEnemy
+    uniqueID: 1807169471
+    locked: 0
