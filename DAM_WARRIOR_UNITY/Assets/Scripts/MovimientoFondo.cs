@@ -1,12 +1,15 @@
 using UnityEngine;
-using UnityEngine.UI; // Necesitas agregar esta línea para usar RawImage
+using UnityEngine.UI;
 
 public class MovimientoFondo : MonoBehaviour
 {
     [SerializeField] private RawImage _img;
     [SerializeField] private float _x, _y;
+
     void Update()
     {
-       _img.uvRect = new Rect(_img.uvRect.position + new Vector2(_x,_y) * Time.deltaTime, _img.uvRect.size);
+        float newPosX = Mathf.Repeat(_img.uvRect.x + _x * Time.deltaTime, 1);
+        float newPosY = Mathf.Repeat(_img.uvRect.y + _y * Time.deltaTime, 1);
+        _img.uvRect = new Rect(new Vector2(newPosX, newPosY), _img.uvRect.size);
     }
 }

@@ -1,42 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletEnemigo : MonoBehaviour
 {
-
     public float lifetime = 5f;
     public int damage = 1;
     public AudioClip hitSound;
     private AudioSource audioSource;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        Destroy(gameObject, lifetime);
+        GameStatistics.Instance.RegisterShotFired();
+        Invoke("ReturnToPool", lifetime);
+    }
+
+    void ReturnToPool()
+    {
+        BulletPool.Instance.ReturnBullet(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            GameStatistics.Instance.RegisterHit();
             VidaNave vidanave = collision.gameObject.GetComponent<VidaNave>();
-
             if (vidanave != null)
             {
                 vidanave.PerderSalud(damage);
                 PlayHitSound();
-
             }
 
-            Destroy(gameObject);
+            BulletPool.Instance.ReturnBullet(gameObject);
         }
-        void PlayHitSound()
+    }
+
+    private void PlayHitSound()
+    {
+        if (hitSound != null && audioSource != null)
         {
-            if (hitSound != null && audioSource != null)
-            {
-                audioSource.PlayOneShot(hitSound);
-            }
+            audioSource.PlayOneShot(hitSound);
         }
     }
 }

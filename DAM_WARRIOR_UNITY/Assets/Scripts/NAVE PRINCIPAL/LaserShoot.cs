@@ -3,90 +3,94 @@ using UnityEngine.InputSystem;
 
 public class LaserShoot : MonoBehaviour
 {
-    public GameObject bulletPrefab;
+    public GameObject bulletPrefab; // Ya no se usará directamente para instanciar
     public float bulletSpeed = 10f;
     private AudioSource audioSource;
-    private AudioSource audioSource2;// Referencia al componente AudioSource del GameObject "SFX_SHOOT"
-    public AudioClip shootSound; // AudioClip para el sonido de disparo
-    public GameObject specialBulletPrefab; // Prefab para el disparo especial
-    public AudioClip specialShootSound; // Sonido de disparo especial
-    private Transform escalador; // Referencia al objeto de la barra de poder
-    private bool isShooting = false; // Para controlar si se está realizando un disparo especial
+    private AudioSource audioSource2;
+    public AudioClip shootSound;
+    public GameObject specialBulletPrefab; // Ya no se usará directamente para instanciar
+    public AudioClip specialShootSound;
+    private Transform escalador;
+    private bool isShooting = false;
 
     void Start()
     {
-        // Obtener la referencia al GameObject "Escalador"
         escalador = GameObject.Find("Escalador").transform;
-        // Obtener el componente AudioSource del GameObject "SFX"
         audioSource = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
         audioSource2 = GameObject.Find("SFX_SHOOT2").GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        // Disparo normal con el botón de salto (o el que tengas configurado para disparar)
         if (Input.GetButtonDown("Jump"))
         {
             Shoot();
         }
 
-        // Disparo especial cuando fullPower es true y no se está realizando un disparo especial
         if (Input.GetButtonDown("Fire1") && GameManager.fullPower && !isShooting)
         {
-            ShootSpecial(); // Disparar el proyectil especial
+            ShootSpecial();
         }
     }
 
     void Shoot()
     {
-        // Reproducir el sonido de disparo si está configurado
         if (shootSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(shootSound);
         }
 
-        Vector3 firePointPosition = transform.Find("PuntoDisparo").position;
+        // Asegúrate de que PuntoDisparo existe y tiene un transform
+        Transform firePoint = transform.Find("PuntoDisparo");
+        if (firePoint == null)
+        {
+            Debug.LogError("No se encontró el punto de disparo. Asegúrate de que el objeto 'PuntoDisparo' existe como hijo en la nave.");
+            return;
+        }
 
-        // Crea el proyectil
-        GameObject bullet = Instantiate(bulletPrefab, firePointPosition, Quaternion.identity);
+        // Obteniendo la bala del pool y verificando que no sea nula
+        GameObject bullet = BulletPool.Instance.GetBullet();
+        if (bullet == null)
+        {
+            Debug.LogError("No se pudo obtener una bala del pool. Asegúrate de que el BulletPool está configurado correctamente.");
+            return;
+        }
 
-        // Aplica la fuerza al proyectil
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = Quaternion.identity;
+
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.AddForce(transform.right * bulletSpeed, ForceMode2D.Impulse);
+        if (rb == null)
+        {
+            Debug.LogError("No se encontró Rigidbody2D en la bala. Asegúrate de que todas las balas tienen un Rigidbody2D.");
+            return;
+        }
+        rb.velocity = transform.right * bulletSpeed;
     }
+
 
     void ShootSpecial()
     {
-        // Reproducir el sonido del disparo especial si está configurado
-        if (specialShootSound != null && audioSource != null)
+        if (specialShootSound != null && audioSource2 != null)
         {
             audioSource2.PlayOneShot(specialShootSound);
         }
 
-        // Restablecer la escala del escalador solo en el eje X al valor por defecto
-        if (escalador != null)
-        {
-            escalador.localScale = new Vector3(0f, escalador.localScale.y, escalador.localScale.z);
-        }
-        // Restablecer fullPower a false
+        escalador.localScale = new Vector3(0f, escalador.localScale.y, escalador.localScale.z);
         GameManager.fullPower = false;
-
-        // Marcar que se está realizando un disparo especial
         isShooting = true;
 
-        Vector3 firePointPosition = transform.Find("PuntoDisparo").position;
+        GameObject specialBullet = BulletPool.Instance.GetSpecialBullet(); // Usar el método GetSpecialBullet
+        specialBullet.transform.position = transform.Find("PuntoDisparo").position;
+        specialBullet.transform.rotation = Quaternion.identity;
 
-        // Crea el proyectil especial
-        GameObject specialBullet = Instantiate(specialBulletPrefab, firePointPosition, Quaternion.identity);
         Rigidbody2D rb = specialBullet.GetComponent<Rigidbody2D>();
-        rb.AddForce(transform.right * bulletSpeed * 3, ForceMode2D.Impulse);
+        rb.velocity = transform.right * bulletSpeed * 3; // Uso de velocidad directa
 
-        // Marcar que se ha completado el disparo especial después de un breve retraso
-        // Esto es para evitar que se realicen múltiples disparos especiales al mantener presionado el botón
         Invoke("ResetIsShooting", 0.5f);
     }
 
-    // Método para restablecer isShooting después de disparar el proyectil especial
+
     void ResetIsShooting()
     {
         isShooting = false;

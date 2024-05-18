@@ -4,48 +4,58 @@ using UnityEngine.SceneManagement;
 
 public class BossHealth : MonoBehaviour
 {
-    public int health = 2; // Vida de la nave enemiga
-    public GameObject deathEffectPrefabBoss; // Prefab de la animación de muerte
-    private AudioSource explosionAudioSourceBoss; // Referencia al componente AudioSource del sonido de explosión
+    public int health = 2;
+    public GameObject deathEffectPrefabBoss;
+    private AudioSource explosionAudioSourceBoss;
     public AudioClip dieSoundBoss;
 
     void Start()
     {
-        // Obtener el componente AudioSource del GameObject "SFX_DEATH_ENEMY"
         explosionAudioSourceBoss = GameObject.Find("SFX_DEATH_ENEMY").GetComponent<AudioSource>();
     }
 
     public void TakeDamage(int damageAmount)
     {
-        health -= damageAmount; // Reduce la salud por el daño recibido
-
+        health -= damageAmount;
+        GameStatistics.Instance.RegisterDamageReceived(damageAmount); // Registro de daño recibido
         if (health <= 0)
         {
             Die();
         }
     }
 
-    void Die()
+
+    private void Die()
+    {
+        PlayDeathEffect();
+        PlayDeathSound();
+        GameStatistics.Instance.EndGame(); // Finalizar el seguimiento cuando el jefe muere
+        NotifyDeath();
+    }
+
+
+    private void PlayDeathEffect()
     {
         if (deathEffectPrefabBoss != null)
         {
             Instantiate(deathEffectPrefabBoss, transform.position, Quaternion.identity);
         }
+    }
 
-        if (explosionAudioSourceBoss != null)
+    private void PlayDeathSound()
+    {
+        if (explosionAudioSourceBoss != null && dieSoundBoss != null)
         {
             explosionAudioSourceBoss.PlayOneShot(dieSoundBoss);
         }
+    }
 
-        // Llama al método LoadFirstSceneAfterDelay del StageManager solo después de la muerte del jefe
+    private void NotifyDeath()
+    {
         StageManager stageManager = FindObjectOfType<StageManager>();
         if (stageManager != null)
         {
-            SceneManager.LoadScene(0);
-            //stageManager.StartCoroutine(stageManager.LoadFirstSceneAfterDelay(5));
+            stageManager.FlyingFortressDestroyed();
         }
-
-       
     }
-
 }

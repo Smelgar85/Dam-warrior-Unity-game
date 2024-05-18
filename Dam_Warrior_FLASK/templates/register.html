@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <style>
+        body {
+            background-image: url('./img/imagen2.webp'); /* Ajuste la ruta según la estructura de tus carpetas */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .form-wrapper {
+            text-align: center;
+        }
+        .logo-container {
+            margin-bottom: 2x;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px; /* Ajuste del ancho del contenedor */
+            margin: 0 auto; /* Centra el contenedor */
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .form-container input {
+            width: calc(100% - 20px); /* Ajuste del ancho del input */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-wrapper">
+        <div class="logo-container">
+            <img src="./img/DAM_LOGO.png" alt="DAM Logo" style="max-width: 60%; height: auto;">
+        </div>
+        <div class="form-container">
+            <h2>Registro de Nuevo Usuario</h2>
+            <form method="POST" action="{{ url_for('register') }}">
+                <label for="nombre_usuario">Nombre de Usuario:</label>
+                <input type="text" id="nombre_usuario" name="nombre_usuario" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+                <button type="submit">Aceptar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

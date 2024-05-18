@@ -6,28 +6,30 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance { get; private set; }
 
+    public RockSpawner rockSpawner;       // Asegúrate de asignar estos en el inspector de Unity
+    public SpaceShipSpawner spaceShipSpawner;
+    public BossSpawner bossSpawner;
+
     public enum GameStage
     {
         SpawningRocks,
         SpawningSpaceships,
-        SpawningBoss
+        SpawningBoss,
+        RestPeriod  // Añadido para manejar el período de descanso
     }
 
     public GameStage currentStage = GameStage.SpawningRocks;
     public float timeToNextStage = 60f; // Duración de cada etapa en segundos
+    public float restPeriodDuration = 10f; // Duración del período de descanso en segundos
     private float stageTimer;
-
-    // Referencias a otros managers o controladores
-    public RockSpawner rockSpawner;
-    public SpaceShipSpawner spaceShipSpawner;
-    public BossSpawner bossSpawner; // Nuevo spawner para el jefe
+    private bool isInRestPeriod = false;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Solo si necesitas que persista entre escenas, sino quita esta línea
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -39,6 +41,7 @@ public class StageManager : MonoBehaviour
     {
         stageTimer = timeToNextStage;
         UpdateStageSettings();
+        GameStatistics.Instance.StartGame();
     }
 
     void Update()
@@ -46,9 +49,32 @@ public class StageManager : MonoBehaviour
         stageTimer -= Time.deltaTime;
         if (stageTimer <= 0)
         {
-            AdvanceStage();
-            stageTimer = timeToNextStage; // Reinicia el contador para la próxima etapa
+            if (isInRestPeriod)
+            {
+                EndRestPeriod();
+            }
+            else
+            {
+                StartRestPeriod();
+            }
         }
+    }
+
+    void StartRestPeriod()
+    {
+        isInRestPeriod = true;
+        stageTimer = restPeriodDuration; // Establecer el tiempo de descanso
+        // Desactiva los spawners aquí para detener el spawn de enemigos
+        rockSpawner.enabled = false;
+        spaceShipSpawner.enabled = false;
+        bossSpawner.enabled = false;
+    }
+
+    void EndRestPeriod()
+    {
+        isInRestPeriod = false;
+        AdvanceStage();
+        stageTimer = timeToNextStage; // Reinicia el contador para la próxima etapa
     }
 
     void AdvanceStage()
@@ -64,6 +90,12 @@ public class StageManager : MonoBehaviour
             currentStage = GameStage.SpawningBoss;
             spaceShipSpawner.StopSpawning();
             bossSpawner.StartSpawning();
+        }
+        else if (currentStage == GameStage.SpawningBoss)
+        {
+            currentStage = GameStage.SpawningRocks; // Reinicia el ciclo
+            bossSpawner.StopSpawning();
+            rockSpawner.StartSpawning();
         }
         UpdateStageSettings();
     }
@@ -88,16 +120,5 @@ public class StageManager : MonoBehaviour
                 bossSpawner.enabled = true;
                 break;
         }
-    }
-
-    public void FlyingFortressDestroyed()
-    {
-        StartCoroutine(LoadFirstSceneAfterDelay(10)); 
-    }
-
-    public IEnumerator LoadFirstSceneAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(0);
     }
 }
