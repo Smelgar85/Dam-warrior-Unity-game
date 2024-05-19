@@ -6,32 +6,56 @@
     <title>Registro</title>
     <style>
         body {
-            background-image: url('./img/imagen2.webp'); /* Ajuste la ruta según la estructura de tus carpetas */
+            background-image: url('./img/imagen2.webp');
             background-size: cover;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
         }
+        .header {
+            width: 100%;
+            background-color: #333;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .header a {
+            color: white;
+            font-weight: bold;
+            padding: 0 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
         .form-wrapper {
             text-align: center;
+            padding-top: 0px; /* Menor espacio para acercar al header */
         }
         .logo-container {
-            margin-bottom: 2x;
+            margin-top: 0;
+            margin-bottom: 0px; /* Espacio reducido debajo del logo */
         }
         .form-container {
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            padding: 15px; /* Reducir padding */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 300px; /* Ajuste del ancho del contenedor */
+            width: 250px; /* Reducir ancho del contenedor */
             margin: 0 auto; /* Centra el contenedor */
         }
         .form-container h2 {
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reducir margen inferior */
         }
         .form-container label {
             display: block;
@@ -40,31 +64,48 @@
         }
         .form-container input {
             width: calc(100% - 20px); /* Ajuste del ancho del input */
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 8px; /* Reducir padding */
+            margin-bottom: 10px; /* Reducir margen inferior */
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         .form-container button {
-            padding: 10px 20px;
+            padding: 8px 15px; /* Reducir padding */
             border: none;
             border-radius: 5px;
-            background-color: #4CAF50;
+            background-color: #153197;
             color: white;
             cursor: pointer;
         }
         .form-container button:hover {
-            background-color: #45a049;
+            background-color: #122671;
+        }
+        .flash-messages {
+            margin-bottom: 10px; /* Espacio debajo de los mensajes flash */
+            text-align: center; /* Centrar los mensajes flash */
+            color: #FF0000; /* Color del texto de los mensajes flash */
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <a href="{{ url_for('home') }}">INICIO</a>
+    </div>
     <div class="form-wrapper">
         <div class="logo-container">
-            <img src="./img/DAM_LOGO.png" alt="DAM Logo" style="max-width: 60%; height: auto;">
+            <img src="./img/DAM_LOGO.png" alt="DAM Logo" style="max-width: 50%; height: auto;"> <!-- Reducir tamaño del logo -->
         </div>
         <div class="form-container">
-            <h2>Registro de Nuevo Usuario</h2>
+            <h2>Registro de nuevo usuario</h2>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="flash-messages">
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
             <form method="POST" action="{{ url_for('register') }}">
                 <label for="nombre_usuario">Nombre de Usuario:</label>
                 <input type="text" id="nombre_usuario" name="nombre_usuario" required>

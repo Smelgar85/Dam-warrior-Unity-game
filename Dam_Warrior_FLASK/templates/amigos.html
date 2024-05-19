@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Amigos</title>
     <style>
         body {
             background-image: url('./img/imagen2.webp'); /* Ajuste la ruta según la estructura de tus carpetas */
@@ -77,42 +77,28 @@
 <body>
     <div class="header">
         <a href="{{ url_for('home') }}">INICIO</a>
+        <a href="{{ url_for('dashboard') }}">DASHBOARD</a>
         <a href="{{ url_for('partidas') }}">PARTIDAS</a>
-        <a href="{{ url_for('amigos') }}">AMIGOS</a>
         <div class="right">
             <a href="{{ url_for('logout') }}">Logout</a>
             <img src="./img/profile_placeholder.png" alt="Perfil">
         </div>
     </div>
     <div class="content">
-        <h2>Bienvenido, piloto {{ nombre_usuario }}!</h2>
-        <p>Aquí podrás ver tus puntuaciones y las de tus amigos.</p>
+        <h2>Tus Amigos</h2>
         <div class="table-container">
-            <h3>Ranking de Mejores Puntuaciones</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Usuario</th>
-                        <th>Fecha</th>
-                        <th>Mapa</th>
-                        <th>Puntuación</th>
-                        <th>Precisión</th>
-                        <th>Tiempo</th>
-                        <th>Daño causado</th>
-                        <th>Daño recibido</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for partida in mejores_partidas %}
+                    {% for amigo in amigos %}
                     <tr>
-                        <td>{{ partida.usuario.nombre_usuario }}</td>
-                        <td>{{ partida.fecha.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                        <td>{{ partida.mapa.nombre_mapa }}</td>
-                        <td>{{ partida.puntuacion_destruccion }}</td>
-                        <td>{{ partida.estadisticas_precision }}%</td>
-                        <td>{{ partida.tiempo_completado }} s</td>
-                        <td>{{ partida.dano_infligido }}</td>
-                        <td>{{ partida.dano_recibido }}</td>
+                        <td>{{ amigo.nombre_usuario }}</td>
+                        <td>{{ amigo.email }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -5,8 +5,9 @@ db = SQLAlchemy()
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_usuario = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     contrasena = db.Column(db.String(200), nullable=False)
-    partidas = db.relationship('Partida', backref='jugador', lazy=True)
+    partidas = db.relationship('Partida', backref='usuario', lazy=True)
     amistades1 = db.relationship('Amistad', foreign_keys='Amistad.usuario_id1', backref='amigo1', lazy=True)
     amistades2 = db.relationship('Amistad', foreign_keys='Amistad.usuario_id2', backref='amigo2', lazy=True)
 
