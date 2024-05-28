@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amigos</title>
+    <title>Perfil</title>
     <style>
         body {
             background-image: url('/img/imagen2.webp');
@@ -55,10 +55,13 @@
             height: 40px;
         }
         .content {
-            margin-top: 60px;
+            margin-top: 60px; /* Espacio para el header */
             text-align: center;
             width: 90%;
-            max-width: 1200px;
+            max-width: 600px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
         }
         .flash-messages {
             margin-bottom: 20px;
@@ -76,7 +79,6 @@
             border-radius: 10px;
             text-align: left;
             color: black;
-            margin-bottom: 20px;
         }
         .form-container label {
             display: block;
@@ -100,26 +102,6 @@
         }
         .form-container button:hover {
             background-color: #122671;
-        }
-        .table-container {
-            margin-top: 20px;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: black;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #314798;
-            color: white;
         }
     </style>
 </head>
@@ -148,43 +130,16 @@
                 {% endif %}
             {% endwith %}
         </div>
-        <h2>Tus Amigos</h2>
-        <div class="form-container">
-            <form method="POST" action="{{ url_for('amigos') }}">
-                <label for="nombre_usuario">Buscar y Agregar Amigo:</label>
-                <input type="text" id="nombre_usuario" name="nombre_usuario" required>
-                <button type="submit" name="buscar_amigo">Agregar Amigo</button>
-            </form>
-        </div>
-        <div class="table-container">
-            {% if amigos %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre de Usuario</th>
-                            <th>Email</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for amigo in amigos %}
-                        <tr>
-                            <td><a href="{{ url_for('perfil_usuario', usuario_id=amigo.id) }}">{{ amigo.nombre_usuario }}</a></td>
-                            <td>{{ amigo.email }}</td>
-                            <td>
-                                <form method="POST" action="{{ url_for('amigos') }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar a este amigo?');">
-                                    <input type="hidden" name="amigo_id" value="{{ amigo.id }}">
-                                    <button type="submit" name="eliminar_amigo">Eliminar Amigo</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Todavía no tienes amigos :( ¿Por qué no agregas a alguien?</p>
-            {% endif %}
-        </div>
+        <h2>Perfil de Usuario</h2>
+        <form method="POST" action="{{ url_for('perfil') }}" class="form-container">
+            <label for="nombre_usuario">Nombre de Usuario:</label>
+            <input type="text" id="nombre_usuario" name="nombre_usuario" value="{{ usuario.nombre_usuario }}" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ usuario.email }}" required>
+            <button type="submit" name="accion" value="Actualizar">Actualizar</button>
+            <button type="submit" name="accion" value="Borrar Partidas" onclick="return confirm('¿Estás seguro de que deseas borrar todas tus partidas?');">Borrar Partidas</button>
+            <button type="submit" name="accion" value="Borrar Cuenta" onclick="return confirm('¿Estás seguro de que deseas borrar tu cuenta? Esta acción no se puede deshacer.');">Borrar Cuenta</button>
+        </form>
     </div>
 </body>
 </html>

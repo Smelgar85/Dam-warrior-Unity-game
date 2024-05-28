@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partidas</title>
+    <title>Perfil de {{ usuario.nombre_usuario }}</title>
     <style>
         body {
-            background-image: url('./img/imagen2.webp');
+            background-image: url('/img/imagen2.webp');
             background-size: cover;
             display: flex;
             flex-direction: column;
@@ -54,7 +54,6 @@
             width: 40px;
             height: 40px;
         }
-
         .content {
             margin-top: 60px; /* Espacio para el header */
             text-align: center;
@@ -93,15 +92,15 @@
             <a href="{{ url_for('partidas') }}">MIS PARTIDAS</a>
             <a href="{{ url_for('amigos') }}">AMIGOS</a>
             <a href="{{ url_for('perfil') }}" class="logo-link">
-                <img src="./img/logo.png" alt="Perfil" class="logo">
+                <img src="/img/logo.png" alt="Perfil" class="logo">
             </a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </div>
     </div>
-
     <div class="content">
-        <h2>Tus Partidas</h2>
+        <h2>Perfil de {{ usuario.nombre_usuario }}</h2>
         <div class="table-container">
+            <h3>Partidas de {{ usuario.nombre_usuario }}</h3>
             <table>
                 <thead>
                     <tr>

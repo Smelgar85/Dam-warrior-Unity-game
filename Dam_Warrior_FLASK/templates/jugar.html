@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugar</title>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .header {
+            width: 100%;
+            background-color: #333;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .header .left {
+            display: flex;
+            align-items: center;
+        }
+        .header .right {
+            display: flex;
+            align-items: center;
+        }
+        .header a {
+            color: white;
+            padding: 0 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .header .logo {
+            border-radius: 50%;
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+        }
+        .content {
+            margin-top: 60px;
+            text-align: center;
+            width: 100%;
+            height: calc(100vh - 60px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        iframe {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="left">
+            <a href="{{ url_for('home') }}">INICIO</a>
+        </div>
+        <div class="right">
+            <a href="{{ url_for('jugar') }}">JUGAR</a>
+            <a href="{{ url_for('partidas') }}">MIS PARTIDAS</a>
+            <a href="{{ url_for('amigos') }}">AMIGOS</a>
+            <a href="{{ url_for('perfil') }}" class="logo-link">
+                <img src="./img/logo.png" alt="Perfil" class="logo">
+            </a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+    <div class="content">
+        <iframe id="webgl_iframe" frameborder="0" allow="autoplay; fullscreen; vr" allowfullscreen=""
+            allowvr="" mozallowfullscreen="true"
+            src="https://play.unity.com/webgl/5a5021b3-b535-4c33-84a8-dc383d0e9a85?screenshot=false&embedType=embed"
+            width="810" height="640" onmousewheel="" webkitallowfullscreen="true"></iframe>
+    </div>
+</body>
+</html>
