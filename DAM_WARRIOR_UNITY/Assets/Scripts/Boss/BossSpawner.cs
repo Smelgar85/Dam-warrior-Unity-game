@@ -1,21 +1,36 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BossSpawner : MonoBehaviour
 {
-    public GameObject bossPrefab; // Prefab del jefe
-    public Transform bossSpawnPoint; // Punto de aparición del jefe
+    public GameObject bossPrefab;
+    public Transform[] spawnPoints;
     private bool isSpawning = false;
+
+    void Start()
+    {
+        // Usa isSpawning aquí si es necesario
+        if (isSpawning)
+        {
+            StartSpawning();
+        }
+    }
 
     public void StartSpawning()
     {
         isSpawning = true;
-        // Instancia el jefe en el punto de aparición
-        Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation, transform);
+        SpawnBoss();
     }
 
     public void StopSpawning()
     {
         isSpawning = false;
+    }
+
+    private void SpawnBoss()
+    {
+        if (spawnPoints.Length == 0 || bossPrefab == null) return;
+
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        Instantiate(bossPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 }

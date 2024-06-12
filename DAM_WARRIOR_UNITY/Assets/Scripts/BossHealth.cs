@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,22 +16,20 @@ public class BossHealth : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount;
-        GameStatistics.Instance.RegisterDamageReceived(damageAmount); // Registro de daño recibido
+        GameStatistics.Instance.RegisterDamageReceived(damageAmount);
         if (health <= 0)
         {
             Die();
         }
     }
 
-
     private void Die()
     {
         PlayDeathEffect();
         PlayDeathSound();
-        GameStatistics.Instance.EndGame(); // Finalizar el seguimiento cuando el jefe muere
+        GameStatistics.Instance.EndGame();
         NotifyDeath();
     }
-
 
     private void PlayDeathEffect()
     {

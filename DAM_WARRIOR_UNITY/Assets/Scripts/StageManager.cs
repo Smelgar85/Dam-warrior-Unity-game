@@ -121,4 +121,12 @@ public class StageManager : MonoBehaviour
                 break;
         }
     }
+
+    // Método agregado para manejar la destrucción de la fortaleza volante
+    public void FlyingFortressDestroyed()
+    {
+        Debug.Log("Flying Fortress Destroyed");
+        // Aquí puedes poner la lógica que necesites cuando la fortaleza es destruida
+        // Por ejemplo, avanzar a la siguiente etapa o finalizar el juego
+    }
 }
