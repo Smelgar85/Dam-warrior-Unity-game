@@ -37,6 +37,7 @@ public class Bullet : MonoBehaviour
         {
             rockHealth.TakeDamage(damage);
             PlayHitSound();
+            ScoreManager.Instance.AddScore(10); // Incrementa la puntuación al dañar una roca
 
             // Incrementar la escala de la barra de poder
             if (escalador != null)
@@ -64,7 +65,9 @@ public class Bullet : MonoBehaviour
         {
             enemyHealth.TakeDamage(damage);
             PlayHitSound();
+            ScoreManager.Instance.AddScore(20); // Incrementa la puntuación al dañar un enemigo
         }
+
         if (escalador != null)
         {
             Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f); // Incrementar gradualmente la escala

@@ -24,6 +24,8 @@ public class StageManager : MonoBehaviour
     private float stageTimer;
     private bool isInRestPeriod = false;
 
+    private GameController gameController; // Referencia al controlador del juego
+
     void Awake()
     {
         if (Instance == null)
@@ -40,8 +42,8 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         stageTimer = timeToNextStage;
+        FindGameController(); // Inicializar GameController
         UpdateStageSettings();
-        GameStatistics.Instance.StartGame();
     }
 
     void Update()
@@ -65,9 +67,10 @@ public class StageManager : MonoBehaviour
         isInRestPeriod = true;
         stageTimer = restPeriodDuration; // Establecer el tiempo de descanso
         // Desactiva los spawners aquí para detener el spawn de enemigos
-        rockSpawner.enabled = false;
-        spaceShipSpawner.enabled = false;
-        bossSpawner.enabled = false;
+        rockSpawner.StopSpawning();
+        spaceShipSpawner.StopSpawning();
+        bossSpawner.StopSpawning();
+        Debug.Log("Iniciando período de descanso");
     }
 
     void EndRestPeriod()
@@ -75,10 +78,12 @@ public class StageManager : MonoBehaviour
         isInRestPeriod = false;
         AdvanceStage();
         stageTimer = timeToNextStage; // Reinicia el contador para la próxima etapa
+        Debug.Log("Finalizando período de descanso");
     }
 
     void AdvanceStage()
     {
+        Debug.Log($"Avanzando etapa desde {currentStage}");
         if (currentStage == GameStage.SpawningRocks)
         {
             currentStage = GameStage.SpawningSpaceships;
@@ -98,27 +103,45 @@ public class StageManager : MonoBehaviour
             rockSpawner.StartSpawning();
         }
         UpdateStageSettings();
+        Debug.Log($"Nueva etapa: {currentStage}");
     }
 
     void UpdateStageSettings()
     {
+        Debug.Log($"Configurando etapa: {currentStage}");
         switch (currentStage)
         {
             case GameStage.SpawningRocks:
-                rockSpawner.enabled = true;
-                spaceShipSpawner.enabled = false;
-                bossSpawner.enabled = false;
+                rockSpawner.StartSpawning();
+                spaceShipSpawner.StopSpawning();
+                bossSpawner.StopSpawning();
+                Debug.Log("Configurado para SpawningRocks");
                 break;
             case GameStage.SpawningSpaceships:
-                rockSpawner.enabled = false;
-                spaceShipSpawner.enabled = true;
-                bossSpawner.enabled = false;
+                rockSpawner.StopSpawning();
+                spaceShipSpawner.StartSpawning();
+                bossSpawner.StopSpawning();
+                Debug.Log("Configurado para SpawningSpaceships");
                 break;
             case GameStage.SpawningBoss:
-                rockSpawner.enabled = false;
-                spaceShipSpawner.enabled = false;
-                bossSpawner.enabled = true;
+                rockSpawner.StopSpawning();
+                spaceShipSpawner.StopSpawning();
+                bossSpawner.StartSpawning();
+                Debug.Log("Configurado para SpawningBoss");
                 break;
+        }
+    }
+
+    void FindGameController()
+    {
+        gameController = FindObjectOfType<GameController>();
+        if (gameController == null)
+        {
+            Debug.LogWarning("GameController no encontrado en la escena.");
+        }
+        else
+        {
+            Debug.Log("GameController encontrado.");
         }
     }
 
@@ -128,5 +151,14 @@ public class StageManager : MonoBehaviour
         Debug.Log("Flying Fortress Destroyed");
         // Aquí puedes poner la lógica que necesites cuando la fortaleza es destruida
         // Por ejemplo, avanzar a la siguiente etapa o finalizar el juego
+    }
+
+    // Método para finalizar la partida y guardar las estadísticas
+    public void FinalizarPartida()
+    {
+        if (gameController != null)
+        {
+            gameController.FinalizarPartida();
+        }
     }
 }

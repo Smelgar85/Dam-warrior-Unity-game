@@ -8,28 +8,16 @@ public class MovimientoNave : MonoBehaviour
     public float maxRotacionX = 45f;
     public GameObject JetEngine1;
     public GameObject JetEngine2;
-    public GameObject campoDeFuerza; // Referencia al GameObject del campo de fuerza
-
-    // Variables para el sistema de sonido
-    public AudioClip campoDeFuerzaSound; // Arrastra aquí tu AudioClip desde el Inspector
 
     private Vector3 escalaJetReposo = new Vector3(0.01f, 0.01f, 0.006f);
     private Vector3 escalaJetAcelerado = new Vector3(0.01f, 0.01f, 0.018f);
     public float velocidadTransicionEscala = 5f; // Velocidad de la transición de la escala
 
-    public float duracionFadeIn = 1f; // Duración del fade in en segundos
-    public float duracionFadeOut = 1f; // Duración del fade out en segundos
-    public float esperaFadeOut = 1f; // Tiempo de espera antes de iniciar el fade out
-
+    private VidaNave vidaNave;
 
     void Start()
     {
-        if (campoDeFuerza != null)
-        {
-            // Asegúrate de que el campo de fuerza comienza invisible, si su shader soporta la transparencia.
-            // Esto se hace ajustando la transparencia a 0.
-            SetFieldAlpha(0f);
-        }
+        vidaNave = GetComponent<VidaNave>();
     }
 
     void Update()
@@ -57,70 +45,15 @@ public class MovimientoNave : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Verifica si la nave colisiona con un objeto que no es un disparo láser
-        if (collision.gameObject.tag != "Bullet")
+        if (!vidaNave.esInvulnerable && collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Nave ha colisionado con: " + collision.gameObject.name);
 
-            // Inicia el fade in solo si la colisión no es con un disparo láser
-            StartCoroutine(FadeFieldIn(duracionFadeIn));
+            vidaNave.AplicarDanio(1);
         }
-        else
+        else if (vidaNave.esInvulnerable)
         {
-            // Opcional: Puedes agregar aquí más lógica si necesitas manejar específicamente la colisión con disparos láser
-            Debug.Log("Colisión con DisparoLaser ignorada.");
-        }
-    }
-
-
-
-
-    IEnumerator FadeFieldIn(float duration)
-    {
-        // Reproduce el sonido cuando se inicia el FadeFieldIn
-        AudioSource audioSource = GameObject.Find("SFX_SHIELD").GetComponent<AudioSource>();
-        if (campoDeFuerzaSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(campoDeFuerzaSound);
-        }
-
-        float counter = 0f;
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            float alpha = Mathf.Lerp(0f, 1f, counter / duration);
-            SetFieldAlpha(alpha);
-            yield return null;
-        }
-
-        // Espera y luego inicia FadeFieldOut
-        yield return new WaitForSeconds(esperaFadeOut);
-        StartCoroutine(FadeFieldOut(duracionFadeOut));
-    }
-
-    IEnumerator FadeFieldOut(float duration)
-    {
-        float counter = 0f;
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, counter / duration);
-            SetFieldAlpha(alpha);
-            yield return null;
-        }
-    }
-
-    void SetFieldAlpha(float alpha)
-    {
-        if (campoDeFuerza != null)
-        {
-            Renderer renderer = campoDeFuerza.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                Color color = renderer.material.color;
-                color.a = alpha;
-                renderer.material.color = color;
-            }
+            Debug.Log("Colisión ignorada porque la nave es invulnerable");
         }
     }
 

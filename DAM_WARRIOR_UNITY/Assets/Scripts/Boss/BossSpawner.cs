@@ -8,17 +8,16 @@ public class BossSpawner : MonoBehaviour
 
     void Start()
     {
-        // Usa isSpawning aquí si es necesario
-        if (isSpawning)
-        {
-            StartSpawning();
-        }
+        // No iniciar spawneo aquí, esperar a que el StageManager lo haga
     }
 
     public void StartSpawning()
     {
-        isSpawning = true;
-        SpawnBoss();
+        if (!isSpawning) // Verificamos si no está ya spawneando
+        {
+            isSpawning = true;
+            SpawnBoss();
+        }
     }
 
     public void StopSpawning()
@@ -28,7 +27,7 @@ public class BossSpawner : MonoBehaviour
 
     private void SpawnBoss()
     {
-        if (spawnPoints.Length == 0 || bossPrefab == null) return;
+        if (spawnPoints.Length == 0 || bossPrefab == null || !isSpawning) return;
 
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(bossPrefab, spawnPoint.position, spawnPoint.rotation);

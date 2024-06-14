@@ -13,7 +13,8 @@ public class RockSpawner : MonoBehaviour
 
     void Start()
     {
-        StartSpawning();
+        // No iniciar spawneo aquí, esperar a que el StageManager lo haga
+        // StartSpawning();
     }
 
     public void StartSpawning()

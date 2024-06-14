@@ -7,16 +7,23 @@ public class BossHealth : MonoBehaviour
     public GameObject deathEffectPrefabBoss;
     private AudioSource explosionAudioSourceBoss;
     public AudioClip dieSoundBoss;
+    private GameController gameController; // Referencia al controlador del juego
 
     void Start()
     {
         explosionAudioSourceBoss = GameObject.Find("SFX_DEATH_ENEMY").GetComponent<AudioSource>();
+        gameController = FindObjectOfType<GameController>(); // Buscar el controlador del juego en la escena
     }
 
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount;
-        GameStatistics.Instance.RegisterDamageReceived(damageAmount);
+
+        if (gameController != null)
+        {
+            gameController.RegistrarDanoRecibido(damageAmount); // Registrar daño recibido
+        }
+
         if (health <= 0)
         {
             Die();
@@ -27,7 +34,12 @@ public class BossHealth : MonoBehaviour
     {
         PlayDeathEffect();
         PlayDeathSound();
-        GameStatistics.Instance.EndGame();
+
+        if (gameController != null)
+        {
+            gameController.FinalizarPartida(); // Finalizar la partida cuando el jefe muere
+        }
+
         NotifyDeath();
     }
 

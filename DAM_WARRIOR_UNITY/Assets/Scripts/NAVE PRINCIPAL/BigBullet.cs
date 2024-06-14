@@ -36,6 +36,7 @@ public class BigBullet : MonoBehaviour
         {
             rockHealth.TakeDamage(damage);
             PlayHitSound();
+            ScoreManager.Instance.AddScore(15); // Incrementa la puntuación al dañar una roca
             IncrementPowerBarScale();
         }
     }
@@ -48,6 +49,7 @@ public class BigBullet : MonoBehaviour
         {
             enemyHealth.TakeDamage(damage);
             PlayHitSound();
+            ScoreManager.Instance.AddScore(25); // Incrementa la puntuación al dañar un enemigo
             IncrementPowerBarScale();
         }
     }

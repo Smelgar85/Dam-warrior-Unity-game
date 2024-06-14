@@ -11,11 +11,8 @@ public class SpaceShipSpawner : MonoBehaviour
 
     void Start()
     {
-        // Comienza la generación de naves solo cuando el spawner esté activo
-        if (isSpawning)
-        {
-            StartSpawning();
-        }
+        // No iniciar spawneo aquí, esperar a que el StageManager lo haga
+        // StartSpawning();
     }
 
     public void StartSpawning()
@@ -27,6 +24,7 @@ public class SpaceShipSpawner : MonoBehaviour
     public void StopSpawning()
     {
         isSpawning = false;
+        CancelInvoke("SpawnSpaceShipWithRandomInterval");
     }
 
     void SpawnSpaceShipWithRandomInterval()

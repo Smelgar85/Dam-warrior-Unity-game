@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
@@ -12,6 +13,17 @@ public class LoginManager : MonoBehaviour
     public string loginUrl = "https://smelgar85.eu.pythonanywhere.com/login";
     public string registerUrl = "https://smelgar85.eu.pythonanywhere.com/register";
 
+    // Añadir referencias para el fade out
+    public Image fadeImage;
+    public Animator fadeAnimator;
+    public string nextSceneName = "MenuInicio"; // Nombre de la escena a cargar
+
+    void Start()
+    {
+        // Asegurarse de que la imagen de fade está inicializada como transparente
+        fadeImage.color = new Color(0, 0, 0, 0);
+    }
+
     public void OnLoginButtonClicked()
     {
         StartCoroutine(Login());
@@ -19,11 +31,11 @@ public class LoginManager : MonoBehaviour
 
     public void OnGuestButtonClicked()
     {
-        //Establecer el usuario y contraseña como "guest"
+        // Establecer el usuario y contraseña como "guest"
         PlayerPrefs.SetString("username", "guest");
         PlayerPrefs.SetString("password", "guest");
-        // Cambiar a la escena "MenuInicio"
-        SceneManager.LoadScene("MenuInicio");
+        // Iniciar el fade out
+        StartCoroutine(FadeOutAndChangeScene());
     }
 
     private IEnumerator Login()
@@ -54,8 +66,8 @@ public class LoginManager : MonoBehaviour
                 // Guardar las credenciales del usuario
                 PlayerPrefs.SetString("username", username);
                 PlayerPrefs.SetString("password", password);
-                // Cambiar a la escena "MenuInicio"
-                SceneManager.LoadScene("MenuInicio");
+                // Iniciar el fade out
+                StartCoroutine(FadeOutAndChangeScene());
             }
         }
     }
@@ -85,5 +97,15 @@ public class LoginManager : MonoBehaviour
         {
             messageText.text = www.downloadHandler.text;
         }
+    }
+
+    private IEnumerator FadeOutAndChangeScene()
+    {
+        // Reproducir la animación de fade out
+        fadeAnimator.Play("FadeOut");
+        // Esperar hasta que la imagen de fade esté completamente opaca
+        yield return new WaitForSeconds(1); // Ajusta el tiempo según la duración de tu animación de fade out
+        // Cambiar a la siguiente escena
+        SceneManager.LoadScene(nextSceneName);
     }
 }

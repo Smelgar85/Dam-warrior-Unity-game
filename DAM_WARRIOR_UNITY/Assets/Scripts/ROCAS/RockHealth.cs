@@ -15,9 +15,12 @@ public class RockHealth : MonoBehaviour
     public float maxScale = 1.5f; // Valor máximo de la escala
     private bool hasEnteredScreen = false;
 
+    private GameController gameController;
+
     void Start()
     {
         currentHealth = maxHealth;
+        gameController = FindObjectOfType<GameController>();
     }
 
     void OnBecameVisible()
@@ -36,6 +39,11 @@ public class RockHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        if (gameController != null)
+        {
+            gameController.RegistrarDanoCausado(damage); // Registrar el daño causado
+        }
+
         if (currentHealth <= 0)
         {
             AudioSource audioSource = GameObject.Find("SFX_EXPLOSION").GetComponent<AudioSource>();
@@ -78,6 +86,9 @@ public class RockHealth : MonoBehaviour
                     }
                 }
             }
+
+            // Actualizar la puntuación en ScoreManager
+            ScoreManager.Instance.AddScore(30);
 
             Destroy(gameObject);
         }

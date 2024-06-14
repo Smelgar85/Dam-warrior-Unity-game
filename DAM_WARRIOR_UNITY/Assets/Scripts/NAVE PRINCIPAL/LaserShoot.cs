@@ -3,12 +3,10 @@ using UnityEngine.InputSystem;
 
 public class LaserShoot : MonoBehaviour
 {
-    public GameObject bulletPrefab; // Ya no se usará directamente para instanciar
     public float bulletSpeed = 10f;
     private AudioSource audioSource;
     private AudioSource audioSource2;
     public AudioClip shootSound;
-    public GameObject specialBulletPrefab; // Ya no se usará directamente para instanciar
     public AudioClip specialShootSound;
     private Transform escalador;
     private bool isShooting = false;
@@ -68,7 +66,6 @@ public class LaserShoot : MonoBehaviour
         rb.velocity = transform.right * bulletSpeed;
     }
 
-
     void ShootSpecial()
     {
         if (specialShootSound != null && audioSource2 != null)
@@ -89,7 +86,6 @@ public class LaserShoot : MonoBehaviour
 
         Invoke("ResetIsShooting", 0.5f);
     }
-
 
     void ResetIsShooting()
     {
