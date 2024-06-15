@@ -3101,6 +3101,8 @@ MonoBehaviour:
   fadeImage: {fileID: 1620345624}
   fadeAnimator: {fileID: 1620345623}
   nextSceneName: MenuInicio
+  audioSource: {fileID: 1410883954}
+  loginSound: {fileID: 8300000, guid: f7e0d2ca0ff357146afdf117cb2f902f, type: 3}
 --- !u!4 &1848252659
 Transform:
   m_ObjectHideFlags: 0

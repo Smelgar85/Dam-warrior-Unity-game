@@ -26,6 +26,10 @@ public class Bullet : MonoBehaviour
         {
             DamageEnemy(collision.gameObject);
         }
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            DamageBoss(collision.gameObject);
+        }
     }
 
     void DamageRock(GameObject rock)
@@ -36,6 +40,7 @@ public class Bullet : MonoBehaviour
         {
             //Debug.Log("Bullet hit a rock and applied damage.");
             rockHealth.TakeDamage(damage);
+            ScoreManager.Instance.RegisterHit();
             PlayHitSound();
             ScoreManager.Instance.AddScore(10);
 
@@ -62,8 +67,35 @@ public class Bullet : MonoBehaviour
         {
             Debug.Log("Bullet hit an enemy and applied damage.");
             enemyHealth.TakeDamage(damage);
+            ScoreManager.Instance.RegisterHit();
             PlayHitSound();
             ScoreManager.Instance.AddScore(20);
+        }
+
+        if (escalador != null)
+        {
+            Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f);
+            escalador.localScale = Vector3.Min(newScale, new Vector3(maxScaleX, 1f, 1f));
+
+            if (escalador.localScale.x >= maxScaleX)
+            {
+                GameManager.fullPower = true;
+            }
+        }
+
+        Destroy(gameObject);
+    }
+
+    void DamageBoss(GameObject boss)
+    {
+        BossHealth bossHealth = boss.GetComponent<BossHealth>();
+
+        if (bossHealth != null)
+        {
+            bossHealth.TakeDamage(damage);
+            ScoreManager.Instance.RegisterHit();
+            PlayHitSound();
+            ScoreManager.Instance.AddScore(50);
         }
 
         if (escalador != null)

@@ -63,6 +63,7 @@ public class LaserShoot : MonoBehaviour
             return;
         }
         rb.velocity = transform.right * bulletSpeed;
+        ScoreManager.Instance.RegisterShot();
     }
 
     void ShootSpecial()
@@ -83,6 +84,7 @@ public class LaserShoot : MonoBehaviour
 
         Rigidbody2D rb = specialBullet.GetComponent<Rigidbody2D>();
         rb.velocity = transform.right * bulletSpeed * 3;
+        ScoreManager.Instance.RegisterShot();
 
         Invoke("ResetIsShooting", 0.5f);
     }

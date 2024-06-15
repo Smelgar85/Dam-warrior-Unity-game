@@ -13,19 +13,45 @@ public class LoginManager : MonoBehaviour
     public string loginUrl = "https://smelgar85.eu.pythonanywhere.com/login";
     public string registerUrl = "https://smelgar85.eu.pythonanywhere.com/register";
 
-    // Añadir referencias para el fade out
     public Image fadeImage;
     public Animator fadeAnimator;
     public string nextSceneName = "MenuInicio"; // Nombre de la escena a cargar
+
+    // Añadido para el sonido de login
+    public AudioSource audioSource;
+    public AudioClip loginSound;
 
     void Start()
     {
         // Asegurarse de que la imagen de fade está inicializada como transparente
         fadeImage.color = new Color(0, 0, 0, 0);
+
+        // Configurar el campo de contraseña para que muestre asteriscos
+        passwordInput.contentType = TMP_InputField.ContentType.Password;
+        passwordInput.ForceLabelUpdate(); // Actualiza el campo para que se apliquen los cambios
+
+        // Añadir listener para la tecla Enter en ambos campos de entrada
+        usernameInput.onSubmit.AddListener(delegate { OnEnterKeyPressed(); });
+        passwordInput.onSubmit.AddListener(delegate { OnEnterKeyPressed(); });
+    }
+
+    void Update()
+    {
+        // Detectar la tecla Enter para iniciar sesión
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            OnLoginButtonClicked();
+        }
     }
 
     public void OnLoginButtonClicked()
     {
+        // Reproducir sonido de login si está configurado
+        if (audioSource != null && loginSound != null)
+        {
+            audioSource.PlayOneShot(loginSound);
+        }
+
         StartCoroutine(Login());
     }
 
@@ -56,17 +82,14 @@ public class LoginManager : MonoBehaviour
         }
         else
         {
-            // Aquí manejamos la respuesta del servidor
             if (www.downloadHandler.text.Contains("incorrectos"))
             {
                 messageText.text = "Nombre de usuario o contraseña incorrectos.";
             }
             else
             {
-                // Guardar las credenciales del usuario
                 PlayerPrefs.SetString("username", username);
                 PlayerPrefs.SetString("password", password);
-                // Iniciar el fade out
                 StartCoroutine(FadeOutAndChangeScene());
             }
         }
@@ -101,11 +124,13 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator FadeOutAndChangeScene()
     {
-        // Reproducir la animación de fade out
         fadeAnimator.Play("FadeOut");
-        // Esperar hasta que la imagen de fade esté completamente opaca
         yield return new WaitForSeconds(1); // Ajusta el tiempo según la duración de tu animación de fade out
-        // Cambiar a la siguiente escena
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    private void OnEnterKeyPressed()
+    {
+        OnLoginButtonClicked();
     }
 }

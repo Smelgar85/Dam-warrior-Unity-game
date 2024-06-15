@@ -16,7 +16,7 @@ public class ResumenPartida : MonoBehaviour
         string json = PlayerPrefs.GetString("ultimaPartida", "{}");
         GameStatistics estadisticas = JsonUtility.FromJson<GameStatistics>(json);
 
-        fechaText.text = "Fecha: " + estadisticas.fecha.ToString();
+        fechaText.text = "Fecha: " + estadisticas.fecha;
         nombreMapaText.text = "Mapa: " + estadisticas.nombreMapa;
         puntuacionText.text = "Puntuación: " + estadisticas.puntuacion;
         precisionText.text = "Precisión: " + (estadisticas.precision * 100).ToString("F2") + "%";

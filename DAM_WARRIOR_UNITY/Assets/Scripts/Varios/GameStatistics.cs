@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class GameStatistics
 {
-    public DateTime fecha;
+    public string fecha;
     public string nombreMapa;
     public int puntuacion;
     public float precision;
@@ -13,7 +13,7 @@ public class GameStatistics
 
     public GameStatistics(DateTime fecha, string nombreMapa, int puntuacion, float precision, float tiempoCompletado, int danoCausado, int danoRecibido)
     {
-        this.fecha = fecha;
+        this.fecha = fecha.ToString("yyyy-MM-dd HH:mm:ss");
         this.nombreMapa = nombreMapa;
         this.puntuacion = puntuacion;
         this.precision = precision;

@@ -109,6 +109,7 @@ public class VidaNave : MonoBehaviour
 
         Debug.Log($"Daño recibido: {cantidad}");
         health -= cantidad;
+        ScoreManager.Instance.RegisterDamageTaken(cantidad);
         health = Mathf.Max(health, 0);
 
         if (gameController != null)
