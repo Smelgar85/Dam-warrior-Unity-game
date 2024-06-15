@@ -12,17 +12,14 @@ public class VidaNave : MonoBehaviour
     public GameObject LIFE_3;
     public GameObject explosionPrefab;
     public GameObject campoDeFuerza; // Referencia al campo de fuerza
-    public AudioClip damageSound; // Sonido de daño
-    private AudioSource audioSource; // Componente de audio
+    public AudioClip campoDeFuerzaSound; // Sonido del campo de fuerza
+    public AudioClip explosionSound; // Sonido de la explosión
     public string nombreHijoConMeshRenderer = "MODELO_DAM_WARRIOR/MESH_NAVE";
-    public bool esInvulnerable = false; // Cambiado a público
+    public bool esInvulnerable = false;
 
     private float tamanoInicialX;
-    public float tiempoUltimoDanio; // Cambiado a público
-    public float tiempoCooldown = 2f; // Nuevo: tiempo de cooldown en segundos
-
-    // Variables para el sistema de sonido
-    public AudioClip campoDeFuerzaSound; // Arrastra aquí tu AudioClip desde el Inspector
+    public float tiempoUltimoDanio;
+    public float tiempoCooldown = 2f; // Tiempo de cooldown en segundos
 
     // Variables de duración del campo de fuerza
     public float duracionFadeIn = 1f; // Duración del fade in en segundos
@@ -40,7 +37,6 @@ public class VidaNave : MonoBehaviour
 
         tamanoInicialX = barraDeVida.localScale.x;
         gameController = FindObjectOfType<GameController>();
-        audioSource = GetComponent<AudioSource>();
 
         if (gameController == null)
         {
@@ -49,16 +45,14 @@ public class VidaNave : MonoBehaviour
 
         if (campoDeFuerza != null)
         {
-            // Asegúrate de que el campo de fuerza comienza invisible, si su shader soporta la transparencia.
             SetFieldAlpha(0f);
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"Colisión detectada con: {collision.gameObject.name}");
+        Debug.Log($"Colisión detectada con: {collision.gameObject.name} con tag: {collision.gameObject.tag}");
 
-        // Ignorar colisiones con las balas del jugador
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Debug.Log("Colisión con bala del jugador ignorada");
@@ -70,22 +64,30 @@ public class VidaNave : MonoBehaviour
             Debug.Log("Daño recibido por colisión con: " + collision.gameObject.name);
             AplicarDanio(1);
         }
+        /*
         else
         {
             Debug.Log("Colisión ignorada porque la nave es invulnerable");
         }
+        */
     }
 
     public void AplicarDanio(int cantidad)
     {
-        Debug.Log("Aplicando daño: " + cantidad);
-        PerderSalud(cantidad);
-        tiempoUltimoDanio = Time.time;
-        StartCoroutine(ActivarInvulnerabilidad());
+        if (!esInvulnerable)
+        {
+            Debug.Log("Aplicando daño: " + cantidad);
+            PerderSalud(cantidad);
+            tiempoUltimoDanio = Time.time;
+            StartCoroutine(ActivarInvulnerabilidad());
 
-        // Inicia el fade in del campo de fuerza y reproduce el sonido de daño
-        StartCoroutine(FadeFieldIn(duracionFadeIn)); // Duración ajustable
-        PlayDamageSound();
+            // Inicia el fade in del campo de fuerza y reproduce el sonido de daño
+            StartCoroutine(FadeFieldIn(duracionFadeIn)); // Duración ajustable
+        }
+        else
+        {
+            Debug.Log("Intento de aplicar daño ignorado porque la nave es invulnerable");
+        }
     }
 
     public IEnumerator ActivarInvulnerabilidad()
@@ -99,15 +101,34 @@ public class VidaNave : MonoBehaviour
 
     public void PerderSalud(int cantidad)
     {
+        if (esInvulnerable)
+        {
+            Debug.Log("Intento de recibir daño ignorado porque la nave es invulnerable");
+            return; // No pierde salud si es invulnerable
+        }
+
         Debug.Log($"Daño recibido: {cantidad}");
         health -= cantidad;
         health = Mathf.Max(health, 0);
 
         if (gameController != null)
         {
-            gameController.RegistrarDanoRecibido(cantidad); // Registrar el daño recibido
+            gameController.RegistrarDanoRecibido(cantidad);
         }
 
+        if (health <= 0)
+        {
+            PerderVida();
+            SpawnExplosion();
+            health = 4;
+            return;
+        }
+
+        ActualizarBarraDeVida();
+    }
+
+    void ActualizarBarraDeVida()
+    {
         switch (health)
         {
             case 4:
@@ -126,21 +147,19 @@ public class VidaNave : MonoBehaviour
                 barraDeVida.localScale = new Vector3(0.6f, barraDeVida.localScale.y, barraDeVida.localScale.z);
                 barraDeVida.localPosition = new Vector3(-3.038f, 0.227f, barraDeVida.localPosition.z);
                 break;
-            case 0:
-                barraDeVida.localScale = new Vector3(2.4f, barraDeVida.localScale.y, barraDeVida.localScale.z);
-                barraDeVida.localPosition = new Vector3(-2.15f, 0.227f, barraDeVida.localPosition.z);
-                PerderVida();
-
-                SpawnExplosion(); // Llamamos a la función para reproducir la explosión
-
-                health = 4;
-                return;
         }
     }
 
     void PerderVida()
     {
         lives--;
+
+        // Reproduce el sonido de pérdida de vida
+        AudioSource audioSource = GameObject.Find("SFX_EXPLOSION").GetComponent<AudioSource>();
+        if (explosionSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(explosionSound);
+        }
 
         switch (lives)
         {
@@ -191,7 +210,7 @@ public class VidaNave : MonoBehaviour
 
         foreach (Renderer renderer in renderers)
         {
-            renderer.enabled = true; // Aseguramos que los objetos estén visibles al finalizar el parpadeo
+            renderer.enabled = true;
         }
         esInvulnerable = false;
     }
@@ -201,15 +220,6 @@ public class VidaNave : MonoBehaviour
         if (explosionPrefab != null)
         {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        }
-    }
-
-    private void PlayDamageSound()
-    {
-        Debug.Log("Reproduciendo sonido de daño");
-        if (audioSource != null && damageSound != null)
-        {
-            audioSource.PlayOneShot(damageSound);
         }
     }
 
@@ -223,15 +233,13 @@ public class VidaNave : MonoBehaviour
                 Color color = renderer.material.color;
                 color.a = alpha;
                 renderer.material.color = color;
-                Debug.Log("Campo de fuerza actualizado con alpha: " + alpha);
             }
         }
     }
 
     IEnumerator FadeFieldIn(float duration)
     {
-        Debug.Log("Iniciando FadeFieldIn");
-        // Reproduce el sonido cuando se inicia el FadeFieldIn
+        AudioSource audioSource = GameObject.Find("SFX_SHIELD").GetComponent<AudioSource>();
         if (campoDeFuerzaSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(campoDeFuerzaSound);
@@ -252,7 +260,7 @@ public class VidaNave : MonoBehaviour
 
     IEnumerator FadeFieldOut(float duration)
     {
-        Debug.Log("Iniciando FadeFieldOut");
+        
         float counter = 0f;
         while (counter < duration)
         {

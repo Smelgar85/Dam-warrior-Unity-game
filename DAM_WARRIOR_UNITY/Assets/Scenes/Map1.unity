@@ -167,7 +167,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.557
+  m_Volume: 0.299
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -407,12 +407,12 @@ MonoBehaviour:
   LIFE_3: {fileID: 524846937}
   explosionPrefab: {fileID: 3022531796109256016, guid: a54cbc2d97e9afd4185dddf7e8baa93a, type: 3}
   campoDeFuerza: {fileID: 932646674}
-  damageSound: {fileID: 8300000, guid: 6f501e97d9722934bac92c788c63a62d, type: 3}
+  campoDeFuerzaSound: {fileID: 8300000, guid: 6f501e97d9722934bac92c788c63a62d, type: 3}
+  explosionSound: {fileID: 8300000, guid: c1830079b4e66404e94ae954014a067e, type: 3}
   nombreHijoConMeshRenderer: MODELO_DAM_WARRIOR/MESH_NAVE
   esInvulnerable: 0
   tiempoUltimoDanio: 0
   tiempoCooldown: 2
-  campoDeFuerzaSound: {fileID: 8300000, guid: 6f501e97d9722934bac92c788c63a62d, type: 3}
   duracionFadeIn: 0.5
   duracionFadeOut: 0.5
   esperaFadeOut: 0
@@ -666,7 +666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0f8b7c8051cba44ac966512a82ef8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 9127456805794891370, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
+  playerBulletPrefab: {fileID: 9127456805794891370, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
+  enemyBulletPrefab: {fileID: 1144313476701121097, guid: 074b4bbaff43cd74993282048f70ee81, type: 3}
   specialBulletPrefab: {fileID: 7899507495959550426, guid: 6023ac301b877aa418494418aee64259, type: 3}
 --- !u!1 &264823106
 GameObject:
@@ -1696,63 +1697,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d4dca266eb0f6a4d84db7c4200ff2d3, type: 3}
---- !u!1001 &1005557280
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.789
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.2136
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.897499
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089171118866386031, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 9127456805794891370, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
-      propertyPath: m_Name
-      value: CilindroBullet
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 92f0a21bd3b911b42b09d02b44ad311e, type: 3}
 --- !u!1 &1027231146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,9 +2032,9 @@ MonoBehaviour:
   rockSpawner: {fileID: 485399298}
   spaceShipSpawner: {fileID: 598296826}
   bossSpawner: {fileID: 1457498895}
-  currentStage: 1
-  timeToNextStage: 50
-  restPeriodDuration: 20
+  currentStage: 0
+  timeToNextStage: 10
+  restPeriodDuration: 5
 --- !u!4 &1191914624
 Transform:
   m_ObjectHideFlags: 0
@@ -2443,7 +2387,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossPrefab: {fileID: 3097352058949023032, guid: ea7b5c4a9cddd7f4684b5df2452696f9, type: 3}
-  spawnPoints: []
 --- !u!4 &1457498896
 Transform:
   m_ObjectHideFlags: 0
@@ -3222,4 +3165,3 @@ SceneRoots:
   - {fileID: 135202132}
   - {fileID: 785220262}
   - {fileID: 941448508}
-  - {fileID: 1005557280}

@@ -6,7 +6,7 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance { get; private set; }
 
-    public RockSpawner rockSpawner;       // Asegúrate de asignar estos en el inspector de Unity
+    public RockSpawner rockSpawner;
     public SpaceShipSpawner spaceShipSpawner;
     public BossSpawner bossSpawner;
 
@@ -15,16 +15,16 @@ public class StageManager : MonoBehaviour
         SpawningRocks,
         SpawningSpaceships,
         SpawningBoss,
-        RestPeriod  // Añadido para manejar el período de descanso
+        RestPeriod
     }
 
     public GameStage currentStage = GameStage.SpawningRocks;
-    public float timeToNextStage = 60f; // Duración de cada etapa en segundos
-    public float restPeriodDuration = 10f; // Duración del período de descanso en segundos
+    public float timeToNextStage = 60f;
+    public float restPeriodDuration = 10f;
     private float stageTimer;
     private bool isInRestPeriod = false;
 
-    private GameController gameController; // Referencia al controlador del juego
+    private GameController gameController;
 
     void Awake()
     {
@@ -42,12 +42,18 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         stageTimer = timeToNextStage;
-        FindGameController(); // Inicializar GameController
+        FindGameController();
         UpdateStageSettings();
     }
 
     void Update()
     {
+        // Verificar si la escena activa es "ResumenPartida"
+        if (SceneManager.GetActiveScene().name == "ResumenPartida")
+        {
+            return; // Detener la ejecución del Update si estamos en "ResumenPartida"
+        }
+
         stageTimer -= Time.deltaTime;
         if (stageTimer <= 0)
         {
@@ -65,11 +71,8 @@ public class StageManager : MonoBehaviour
     void StartRestPeriod()
     {
         isInRestPeriod = true;
-        stageTimer = restPeriodDuration; // Establecer el tiempo de descanso
-        // Desactiva los spawners aquí para detener el spawn de enemigos
-        rockSpawner.StopSpawning();
-        spaceShipSpawner.StopSpawning();
-        bossSpawner.StopSpawning();
+        stageTimer = restPeriodDuration;
+        StopAllSpawners();
         Debug.Log("Iniciando período de descanso");
     }
 
@@ -77,7 +80,7 @@ public class StageManager : MonoBehaviour
     {
         isInRestPeriod = false;
         AdvanceStage();
-        stageTimer = timeToNextStage; // Reinicia el contador para la próxima etapa
+        stageTimer = timeToNextStage;
         Debug.Log("Finalizando período de descanso");
     }
 
@@ -87,20 +90,19 @@ public class StageManager : MonoBehaviour
         if (currentStage == GameStage.SpawningRocks)
         {
             currentStage = GameStage.SpawningSpaceships;
-            rockSpawner.StopSpawning();
-            spaceShipSpawner.StartSpawning();
+            StopSpawner(rockSpawner);
+            StartSpawner(spaceShipSpawner);
         }
         else if (currentStage == GameStage.SpawningSpaceships)
         {
             currentStage = GameStage.SpawningBoss;
-            spaceShipSpawner.StopSpawning();
-            bossSpawner.StartSpawning();
+            StopSpawner(spaceShipSpawner);
+            StartSpawner(bossSpawner);
         }
         else if (currentStage == GameStage.SpawningBoss)
         {
-            currentStage = GameStage.SpawningRocks; // Reinicia el ciclo
-            bossSpawner.StopSpawning();
-            rockSpawner.StartSpawning();
+            // Cambio para evitar reiniciar el ciclo después del jefe
+            StopAllSpawners();
         }
         UpdateStageSettings();
         Debug.Log($"Nueva etapa: {currentStage}");
@@ -109,24 +111,19 @@ public class StageManager : MonoBehaviour
     void UpdateStageSettings()
     {
         Debug.Log($"Configurando etapa: {currentStage}");
+        StopAllSpawners();
         switch (currentStage)
         {
             case GameStage.SpawningRocks:
-                rockSpawner.StartSpawning();
-                spaceShipSpawner.StopSpawning();
-                bossSpawner.StopSpawning();
+                StartSpawner(rockSpawner);
                 Debug.Log("Configurado para SpawningRocks");
                 break;
             case GameStage.SpawningSpaceships:
-                rockSpawner.StopSpawning();
-                spaceShipSpawner.StartSpawning();
-                bossSpawner.StopSpawning();
+                StartSpawner(spaceShipSpawner);
                 Debug.Log("Configurado para SpawningSpaceships");
                 break;
             case GameStage.SpawningBoss:
-                rockSpawner.StopSpawning();
-                spaceShipSpawner.StopSpawning();
-                bossSpawner.StartSpawning();
+                StartSpawner(bossSpawner);
                 Debug.Log("Configurado para SpawningBoss");
                 break;
         }
@@ -145,20 +142,48 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // Método agregado para manejar la destrucción de la fortaleza volante
     public void FlyingFortressDestroyed()
     {
         Debug.Log("Flying Fortress Destroyed");
-        // Aquí puedes poner la lógica que necesites cuando la fortaleza es destruida
-        // Por ejemplo, avanzar a la siguiente etapa o finalizar el juego
+        StopAllSpawners(); // Detener todos los spawners
+        ScoreManager.Instance.SaveGameStatistics();
+        StartCoroutine(LoadSummaryScene());
     }
 
-    // Método para finalizar la partida y guardar las estadísticas
+    IEnumerator LoadSummaryScene()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("ResumenPartida");
+    }
+
     public void FinalizarPartida()
     {
         if (gameController != null)
         {
             gameController.FinalizarPartida();
+        }
+    }
+
+    void StopAllSpawners()
+    {
+        StopSpawner(rockSpawner);
+        StopSpawner(spaceShipSpawner);
+        StopSpawner(bossSpawner);
+    }
+
+    void StopSpawner(MonoBehaviour spawner)
+    {
+        if (spawner != null)
+        {
+            spawner.Invoke("StopSpawning", 0);
+        }
+    }
+
+    void StartSpawner(MonoBehaviour spawner)
+    {
+        if (spawner != null)
+        {
+            spawner.Invoke("StartSpawning", 0);
         }
     }
 }

@@ -38,7 +38,6 @@ public class LaserShoot : MonoBehaviour
             audioSource.PlayOneShot(shootSound);
         }
 
-        // Asegúrate de que PuntoDisparo existe y tiene un transform
         Transform firePoint = transform.Find("PuntoDisparo");
         if (firePoint == null)
         {
@@ -46,8 +45,7 @@ public class LaserShoot : MonoBehaviour
             return;
         }
 
-        // Obteniendo la bala del pool y verificando que no sea nula
-        GameObject bullet = BulletPool.Instance.GetBullet();
+        GameObject bullet = BulletPool.Instance.GetPlayerBullet();
         if (bullet == null)
         {
             Debug.LogError("No se pudo obtener una bala del pool. Asegúrate de que el BulletPool está configurado correctamente.");
@@ -56,6 +54,7 @@ public class LaserShoot : MonoBehaviour
 
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = Quaternion.identity;
+        bullet.tag = "Bullet";
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb == null)
@@ -77,12 +76,13 @@ public class LaserShoot : MonoBehaviour
         GameManager.fullPower = false;
         isShooting = true;
 
-        GameObject specialBullet = BulletPool.Instance.GetSpecialBullet(); // Usar el método GetSpecialBullet
+        GameObject specialBullet = BulletPool.Instance.GetSpecialBullet();
         specialBullet.transform.position = transform.Find("PuntoDisparo").position;
         specialBullet.transform.rotation = Quaternion.identity;
+        specialBullet.tag = "Bullet";
 
         Rigidbody2D rb = specialBullet.GetComponent<Rigidbody2D>();
-        rb.velocity = transform.right * bulletSpeed * 3; // Uso de velocidad directa
+        rb.velocity = transform.right * bulletSpeed * 3;
 
         Invoke("ResetIsShooting", 0.5f);
     }

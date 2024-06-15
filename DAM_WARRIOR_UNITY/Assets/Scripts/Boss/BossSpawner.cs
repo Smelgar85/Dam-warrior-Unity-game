@@ -1,35 +1,33 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class BossSpawner : MonoBehaviour
 {
     public GameObject bossPrefab;
-    public Transform[] spawnPoints;
-    private bool isSpawning = false;
-
-    void Start()
-    {
-        // No iniciar spawneo aquí, esperar a que el StageManager lo haga
-    }
+    private GameObject currentBoss;
 
     public void StartSpawning()
     {
-        if (!isSpawning) // Verificamos si no está ya spawneando
+        if (currentBoss == null)
         {
-            isSpawning = true;
             SpawnBoss();
         }
     }
 
     public void StopSpawning()
     {
-        isSpawning = false;
+        // Aquí puedes detener cualquier lógica de spawneo continuo si la tienes
     }
 
-    private void SpawnBoss()
+    void SpawnBoss()
     {
-        if (spawnPoints.Length == 0 || bossPrefab == null || !isSpawning) return;
-
-        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Instantiate(bossPrefab, spawnPoint.position, spawnPoint.rotation);
+        if (bossPrefab != null)
+        {
+            currentBoss = Instantiate(bossPrefab, transform.position, transform.rotation);
+        }
+        else
+        {
+            Debug.LogWarning("BossPrefab no asignado en BossSpawner.");
+        }
     }
 }

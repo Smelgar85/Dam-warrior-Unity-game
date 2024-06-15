@@ -11,7 +11,7 @@ public class MovimientoNave : MonoBehaviour
 
     private Vector3 escalaJetReposo = new Vector3(0.01f, 0.01f, 0.006f);
     private Vector3 escalaJetAcelerado = new Vector3(0.01f, 0.01f, 0.018f);
-    public float velocidadTransicionEscala = 5f; // Velocidad de la transición de la escala
+    public float velocidadTransicionEscala = 5f;
 
     private VidaNave vidaNave;
 
@@ -48,7 +48,6 @@ public class MovimientoNave : MonoBehaviour
         if (!vidaNave.esInvulnerable && collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Nave ha colisionado con: " + collision.gameObject.name);
-
             vidaNave.AplicarDanio(1);
         }
         else if (vidaNave.esInvulnerable)
@@ -59,7 +58,6 @@ public class MovimientoNave : MonoBehaviour
 
     void ResetearMovimiento()
     {
-        // Detenemos el movimiento de la nave
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {

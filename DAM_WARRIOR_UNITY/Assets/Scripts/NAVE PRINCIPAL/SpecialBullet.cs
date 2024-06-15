@@ -1,30 +1,27 @@
 using UnityEngine;
 
-public class BigBullet : MonoBehaviour
+public class SpecialBullet : MonoBehaviour
 {
-    public float lifetime = 15f;
+    public float lifetime = 5f;
     public int damage = 5;
     public AudioClip hitSound;
     private AudioSource audioSource;
-    private Transform escalador;
-    private float maxScaleX = 1f;
 
     void Start()
     {
         Destroy(gameObject, lifetime);
-        audioSource = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
-        escalador = GameObject.Find("Escalador").transform;
+        audioSource = GameObject.Find("SFX_SHOOT2").GetComponent<AudioSource>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.gameObject.CompareTag("Rock"))
+        if (collision.gameObject.CompareTag("Rock"))
         {
-            DamageRock(other.gameObject);
+            DamageRock(collision.gameObject);
         }
-        else if (other.gameObject.CompareTag("Enemy"))
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
-            DamageEnemy(other.gameObject);
+            DamageEnemy(collision.gameObject);
         }
     }
 
@@ -34,11 +31,13 @@ public class BigBullet : MonoBehaviour
 
         if (rockHealth != null)
         {
+            Debug.Log("Special bullet hit a rock and applied damage.");
             rockHealth.TakeDamage(damage);
             PlayHitSound();
-            ScoreManager.Instance.AddScore(15);
-            IncrementPowerBarScale();
+            ScoreManager.Instance.AddScore(10);
         }
+
+        Destroy(gameObject);
     }
 
     void DamageEnemy(GameObject enemy)
@@ -50,7 +49,7 @@ public class BigBullet : MonoBehaviour
             Debug.Log("Special bullet hit the boss and applied damage.");
             bossHealth.TakeDamage(damage);
             PlayHitSound();
-            ScoreManager.Instance.AddScore(25);
+            ScoreManager.Instance.AddScore(20);
         }
         else
         {
@@ -61,26 +60,11 @@ public class BigBullet : MonoBehaviour
                 Debug.Log("Special bullet hit an enemy and applied damage.");
                 enemyHealth.TakeDamage(damage);
                 PlayHitSound();
-                ScoreManager.Instance.AddScore(25);
+                ScoreManager.Instance.AddScore(20);
             }
         }
 
-        IncrementPowerBarScale();
-        
-    }
-
-    void IncrementPowerBarScale()
-    {
-        if (escalador != null)
-        {
-            Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f);
-            escalador.localScale = Vector3.Min(newScale, new Vector3(maxScaleX, 1f, 1f));
-
-            if (escalador.localScale.x >= maxScaleX)
-            {
-                GameManager.fullPower = true;
-            }
-        }
+        Destroy(gameObject);
     }
 
     void PlayHitSound()

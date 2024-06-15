@@ -5,16 +5,15 @@ public class Bullet : MonoBehaviour
     public float lifetime = 5f;
     public int damage = 1;
     public AudioClip hitSound;
-    public AudioClip fullRecharge;
     private AudioSource audioSource;
-    private Transform escalador; // Hace referencia al gameobject Escalador, que controla el progreso de la barra de poder
-    private float maxScaleX = 1f; // Valor máximo de la escala en el eje X
+    private Transform escalador;
+    private float maxScaleX = 1f;
 
     void Start()
     {
         Destroy(gameObject, lifetime);
-        audioSource = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>(); // Obtener el AudioSource del GameObject "SFX"
-        escalador = GameObject.Find("Escalador").transform; // Obtener la referencia al GameObject "Escalador"
+        audioSource = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
+        escalador = GameObject.Find("Escalador").transform;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -35,21 +34,19 @@ public class Bullet : MonoBehaviour
 
         if (rockHealth != null)
         {
+            //Debug.Log("Bullet hit a rock and applied damage.");
             rockHealth.TakeDamage(damage);
             PlayHitSound();
-            ScoreManager.Instance.AddScore(10); // Incrementa la puntuación al dañar una roca
+            ScoreManager.Instance.AddScore(10);
 
-            // Incrementar la escala de la barra de poder
             if (escalador != null)
             {
-                Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f); // Incrementar gradualmente la escala
-                escalador.localScale = Vector3.Min(newScale, new Vector3(maxScaleX, 1f, 1f)); // Limitar la escala al máximo
+                Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f);
+                escalador.localScale = Vector3.Min(newScale, new Vector3(maxScaleX, 1f, 1f));
 
-                // Verificar si la barra de poder está completamente llena
                 if (escalador.localScale.x >= maxScaleX)
                 {
-                    //audioSource.PlayOneShot(fullRecharge);
-                    GameManager.fullPower = true; // Establecer fullPower a true solo si la barra está completamente llena
+                    GameManager.fullPower = true;
                 }
             }
         }
@@ -63,21 +60,20 @@ public class Bullet : MonoBehaviour
 
         if (enemyHealth != null)
         {
+            Debug.Log("Bullet hit an enemy and applied damage.");
             enemyHealth.TakeDamage(damage);
             PlayHitSound();
-            ScoreManager.Instance.AddScore(20); // Incrementa la puntuación al dañar un enemigo
+            ScoreManager.Instance.AddScore(20);
         }
 
         if (escalador != null)
         {
-            Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f); // Incrementar gradualmente la escala
-            escalador.localScale = Vector3.Min(newScale, new Vector3(maxScaleX, 1f, 1f)); // Limitar la escala al máximo
+            Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f);
+            escalador.localScale = Vector3.Min(newScale, new Vector3(maxScaleX, 1f, 1f));
 
-            // Verificar si la barra de poder está completamente llena
             if (escalador.localScale.x >= maxScaleX)
             {
-                //audioSource.PlayOneShot(fullRecharge);
-                GameManager.fullPower = true; // Establecer fullPower a true solo si la barra está completamente llena
+                GameManager.fullPower = true;
             }
         }
 

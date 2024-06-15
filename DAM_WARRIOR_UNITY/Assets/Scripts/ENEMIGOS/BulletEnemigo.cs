@@ -5,7 +5,7 @@ public class BulletEnemigo : MonoBehaviour
     public float lifetime = 5f;
     public AudioClip hitSound;
     private AudioSource audioSource;
-    private GameController gameController; // Referencia al controlador del juego
+    private GameController gameController;
 
     void Awake()
     {
@@ -16,12 +16,12 @@ public class BulletEnemigo : MonoBehaviour
     {
         if (gameController == null)
         {
-            gameController = FindObjectOfType<GameController>(); // Buscar el controlador del juego en la escena
+            gameController = FindObjectOfType<GameController>();
         }
 
         if (gameController != null)
         {
-            gameController.RegistrarDisparo(false); // Registrar disparo (en este caso, enemigo disparando)
+            gameController.RegistrarDisparo(false);
         }
 
         Invoke("ReturnToPool", lifetime);
@@ -29,28 +29,30 @@ public class BulletEnemigo : MonoBehaviour
 
     void ReturnToPool()
     {
-        BulletPool.Instance.ReturnBullet(gameObject);
+        BulletPool.Instance.ReturnEnemyBullet(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"BulletEnemigo colisionó con: {collision.gameObject.name}");
+        //Debug.Log($"BulletEnemigo colisionó con: {collision.gameObject.name} con tag: {collision.gameObject.tag}");
         if (collision.gameObject.CompareTag("Player"))
         {
             VidaNave vidanave = collision.gameObject.GetComponent<VidaNave>();
             if (vidanave != null)
             {
                 Debug.Log("Disparo enemigo ha colisionado con la nave");
-                vidanave.AplicarDanio(1); // Notificar a VidaNave sobre la colisión y aplicar daño
+                vidanave.AplicarDanio(1);
                 PlayHitSound();
             }
 
-            BulletPool.Instance.ReturnBullet(gameObject);
+            BulletPool.Instance.ReturnEnemyBullet(gameObject);
         }
-        else
+        /*
+            else
         {
             Debug.Log("Colisión ignorada porque no es un jugador");
         }
+        */
     }
 
     private void PlayHitSound()
