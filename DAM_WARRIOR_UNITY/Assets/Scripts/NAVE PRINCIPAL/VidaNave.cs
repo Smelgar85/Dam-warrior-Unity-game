@@ -1,3 +1,8 @@
+/**
+ * VidaNave.cs
+ * Este script maneja la salud y las vidas de la nave, as铆 como la activaci贸n de la invulnerabilidad y los efectos visuales.
+ */
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,28 +16,29 @@ public class VidaNave : MonoBehaviour
     public GameObject LIFE_2;
     public GameObject LIFE_3;
     public GameObject explosionPrefab;
-    public GameObject campoDeFuerza; // Referencia al campo de fuerza
-    public AudioClip campoDeFuerzaSound; // Sonido del campo de fuerza
-    public AudioClip explosionSound; // Sonido de la explosi髇
+    public GameObject campoDeFuerza; // Referencia al campo de fuerza.
+    public AudioClip campoDeFuerzaSound; // Sonido del campo de fuerza.
+    public AudioClip explosionSound; // Sonido de la explosi贸n.
     public string nombreHijoConMeshRenderer = "MODELO_DAM_WARRIOR/MESH_NAVE";
     public bool esInvulnerable = false;
 
     private float tamanoInicialX;
     public float tiempoUltimoDanio;
-    public float tiempoCooldown = 2f; // Tiempo de cooldown en segundos
+    public float tiempoCooldown = 2f; // Tiempo de cooldown en segundos.
 
-    // Variables de duraci髇 del campo de fuerza
-    public float duracionFadeIn = 1f; // Duraci髇 del fade in en segundos
-    public float duracionFadeOut = 1f; // Duraci髇 del fade out en segundos
-    public float esperaFadeOut = 1f; // Tiempo de espera antes de iniciar el fade out
+    // Variables de duraci贸n del campo de fuerza.
+    public float duracionFadeIn = 1f; // Duraci贸n del fade in en segundos.
+    public float duracionFadeOut = 1f; // Duraci贸n del fade out en segundos.
+    public float esperaFadeOut = 1f; // Tiempo de espera antes de iniciar el fade out.
 
     private GameController gameController;
 
     void Start()
     {
+        // Inicializa referencias y verifica componentes.
         if (barraDeVida == null)
         {
-            Debug.LogError("o se ha asignado la barra de vida en el inspector!");
+            Debug.LogError("隆No se ha asignado la barra de vida en el inspector!");
         }
 
         tamanoInicialX = barraDeVida.localScale.x;
@@ -47,51 +53,50 @@ public class VidaNave : MonoBehaviour
         {
             SetFieldAlpha(0f);
         }
+
+        ActualizarBarraDeVida(); // Asegurarse de que la barra de vida se configure correctamente al inicio.
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"Colisi髇 detectada con: {collision.gameObject.name} con tag: {collision.gameObject.tag}");
+        // Maneja las colisiones y aplica da帽o si no es invulnerable.
+        Debug.Log($"Colisi贸n detectada con: {collision.gameObject.name} con tag: {collision.gameObject.tag}");
 
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("Colisi髇 con bala del jugador ignorada");
+            Debug.Log("Colisi贸n con bala del jugador ignorada");
             return;
         }
 
         if (!esInvulnerable)
         {
-            Debug.Log("Da駉 recibido por colisi髇 con: " + collision.gameObject.name);
+            Debug.Log("Da帽o recibido por colisi贸n con: " + collision.gameObject.name);
             AplicarDanio(1);
         }
-        /*
-        else
-        {
-            Debug.Log("Colisi髇 ignorada porque la nave es invulnerable");
-        }
-        */
     }
 
     public void AplicarDanio(int cantidad)
     {
+        // Aplica da帽o a la nave y activa la invulnerabilidad temporal.
         if (!esInvulnerable)
         {
-            Debug.Log("Aplicando da駉: " + cantidad);
+            Debug.Log("Aplicando da帽o: " + cantidad);
             PerderSalud(cantidad);
             tiempoUltimoDanio = Time.time;
             StartCoroutine(ActivarInvulnerabilidad());
 
-            // Inicia el fade in del campo de fuerza y reproduce el sonido de da駉
-            StartCoroutine(FadeFieldIn(duracionFadeIn)); // Duraci髇 ajustable
+            // Inicia el fade in del campo de fuerza y reproduce el sonido de da帽o.
+            StartCoroutine(FadeFieldIn(duracionFadeIn)); // Duraci贸n ajustable.
         }
         else
         {
-            Debug.Log("Intento de aplicar da駉 ignorado porque la nave es invulnerable");
+            Debug.Log("Intento de aplicar da帽o ignorado porque la nave es invulnerable");
         }
     }
 
     public IEnumerator ActivarInvulnerabilidad()
     {
+        // Activa la invulnerabilidad temporalmente.
         Debug.Log("Activando invulnerabilidad");
         esInvulnerable = true;
         yield return new WaitForSeconds(tiempoCooldown);
@@ -101,13 +106,7 @@ public class VidaNave : MonoBehaviour
 
     public void PerderSalud(int cantidad)
     {
-        if (esInvulnerable)
-        {
-            Debug.Log("Intento de recibir da駉 ignorado porque la nave es invulnerable");
-            return; // No pierde salud si es invulnerable
-        }
-
-        Debug.Log($"Da駉 recibido: {cantidad}");
+        // Reduce la salud de la nave y verifica si debe perder una vida.
         health -= cantidad;
         ScoreManager.Instance.RegisterDamageTaken(cantidad);
         health = Mathf.Max(health, 0);
@@ -120,8 +119,6 @@ public class VidaNave : MonoBehaviour
         if (health <= 0)
         {
             PerderVida();
-            SpawnExplosion();
-            health = 4;
             return;
         }
 
@@ -130,6 +127,7 @@ public class VidaNave : MonoBehaviour
 
     void ActualizarBarraDeVida()
     {
+        // Actualiza la barra de vida seg煤n la salud actual.
         switch (health)
         {
             case 4:
@@ -153,9 +151,10 @@ public class VidaNave : MonoBehaviour
 
     void PerderVida()
     {
+        // Reduce las vidas de la nave y maneja la l贸gica de reinicio o p茅rdida del juego.
         lives--;
 
-        // Reproduce el sonido de p閞dida de vida
+        // Reproduce el sonido de p茅rdida de vida.
         AudioSource audioSource = GameObject.Find("SFX_EXPLOSION").GetComponent<AudioSource>();
         if (explosionSound != null && audioSource != null)
         {
@@ -178,16 +177,19 @@ public class VidaNave : MonoBehaviour
 
         if (lives <= 0)
         {
-            Debug.Log("a nave ha sido destruida!");
+            Debug.Log("隆La nave ha sido destruida!");
         }
         else
         {
+            health = 4; // Resetear la salud.
+            ActualizarBarraDeVida(); // Asegurar que la barra de vida se actualiza.
             StartCoroutine(RespawnAndBlink());
         }
     }
 
     IEnumerator RespawnAndBlink()
     {
+        // Maneja el respawn de la nave y la animaci贸n de parpadeo de invulnerabilidad.
         Vector3 startPosition = new Vector3(-8.029f, 1.323f, 0);
         transform.position = startPosition;
         esInvulnerable = true;
@@ -195,7 +197,7 @@ public class VidaNave : MonoBehaviour
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         if (renderers.Length == 0)
         {
-            Debug.LogError("Ning鷑 Renderer encontrado. Aseg鷕ate de que haya al menos uno en los hijos del objeto.");
+            Debug.LogError("Ning煤n Renderer encontrado. Aseg煤rate de que haya al menos uno en los hijos del objeto.");
             yield break;
         }
 
@@ -218,6 +220,7 @@ public class VidaNave : MonoBehaviour
 
     void SpawnExplosion()
     {
+        // Genera una explosi贸n en la posici贸n de la nave.
         if (explosionPrefab != null)
         {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
@@ -226,6 +229,7 @@ public class VidaNave : MonoBehaviour
 
     private void SetFieldAlpha(float alpha)
     {
+        // Establece la transparencia del campo de fuerza.
         if (campoDeFuerza != null)
         {
             Renderer renderer = campoDeFuerza.GetComponent<Renderer>();
@@ -240,6 +244,7 @@ public class VidaNave : MonoBehaviour
 
     IEnumerator FadeFieldIn(float duration)
     {
+        // Realiza un fade in en el campo de fuerza.
         AudioSource audioSource = GameObject.Find("SFX_SHIELD").GetComponent<AudioSource>();
         if (campoDeFuerzaSound != null && audioSource != null)
         {
@@ -255,13 +260,13 @@ public class VidaNave : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(esperaFadeOut); // Espera antes de comenzar el fade out
-        StartCoroutine(FadeFieldOut(duracionFadeOut)); // Duraci髇 ajustable
+        yield return new WaitForSeconds(esperaFadeOut); // Espera antes de comenzar el fade out.
+        StartCoroutine(FadeFieldOut(duracionFadeOut)); // Duraci贸n ajustable.
     }
 
     IEnumerator FadeFieldOut(float duration)
     {
-        
+        // Realiza un fade out en el campo de fuerza.
         float counter = 0f;
         while (counter < duration)
         {

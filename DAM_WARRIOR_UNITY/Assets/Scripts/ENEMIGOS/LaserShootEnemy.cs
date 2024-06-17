@@ -1,29 +1,35 @@
+/**
+ * LaserShootEnemy.cs
+ * Este script maneja el disparo de balas enemigas desde la nave enemiga.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserShootEnemy : MonoBehaviour
 {
-    public GameObject bulletPrefab; // Prefab de la bala enemiga
-    public float bulletSpeed = 10f; // Velocidad de la bala
-    public AudioClip shootSound; // Sonido de disparo
-    public float shootInterval = 2f; // Intervalo de tiempo entre disparos
-    private AudioSource audioSource_SFX_SHOOT; // Fuente de audio para el sonido de disparo
+    public GameObject bulletPrefab; // Prefab de la bala enemiga.
+    public float bulletSpeed = 10f; // Velocidad de la bala.
+    public AudioClip shootSound; // Sonido de disparo.
+    public float shootInterval = 2f; // Intervalo de tiempo entre disparos.
+    private AudioSource audioSource_SFX_SHOOT; // Fuente de audio para el sonido de disparo.
     private float shootTimer = 0f;
 
     void Start()
     {
-        // Asignar la fuente de audio para el sonido de disparo
+        // Asignar la fuente de audio para el sonido de disparo.
         audioSource_SFX_SHOOT = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
 
         if (audioSource_SFX_SHOOT == null)
         {
-            Debug.LogError("No se encontrÛ el componente AudioSource en SFX_SHOOT. Aseg˙rate de que el objeto existe y tiene un AudioSource.");
+            Debug.LogError("No se encontr√≥ el componente AudioSource en SFX_SHOOT. Aseg√∫rate de que el objeto existe y tiene un AudioSource.");
         }
     }
 
     void Update()
     {
+        // Incrementa el temporizador de disparo y dispara si es necesario.
         shootTimer += Time.deltaTime;
 
         if (shootTimer >= shootInterval)
@@ -35,6 +41,7 @@ public class LaserShootEnemy : MonoBehaviour
 
     void Shoot()
     {
+        // Reproduce el sonido de disparo y dispara una bala enemiga.
         if (shootSound != null && audioSource_SFX_SHOOT != null)
         {
             audioSource_SFX_SHOOT.PlayOneShot(shootSound);
@@ -43,7 +50,7 @@ public class LaserShootEnemy : MonoBehaviour
         Transform firePoint = transform.Find("PuntoDisparoEnemigo");
         if (firePoint == null)
         {
-            Debug.LogError("El punto de disparo no est· asignado correctamente.");
+            Debug.LogError("El punto de disparo no est√° asignado correctamente.");
             return;
         }
         Vector3 firePointPosition = firePoint.position;
@@ -51,10 +58,11 @@ public class LaserShootEnemy : MonoBehaviour
         GameObject bullet = BulletPool.Instance.GetEnemyBullet();
         if (bullet == null)
         {
-            Debug.LogError("No se pudo obtener una bala del pool. Aseg˙rate de que el BulletPool est· configurado correctamente.");
+            Debug.LogError("No se pudo obtener una bala del pool. Aseg√∫rate de que el BulletPool est√° configurado correctamente.");
             return;
         }
 
+        // Configura la posici√≥n y velocidad de la bala enemiga.
         bullet.transform.position = firePointPosition;
         bullet.transform.rotation = Quaternion.identity;
         bullet.tag = "BulletEnemy";
@@ -62,7 +70,7 @@ public class LaserShootEnemy : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb == null)
         {
-            Debug.LogError("No se encontrÛ Rigidbody2D en la bala enemiga. Aseg˙rate de que todas las balas enemigas tienen un Rigidbody2D.");
+            Debug.LogError("No se encontr√≥ Rigidbody2D en la bala enemiga. Aseg√∫rate de que todas las balas enemigas tienen un Rigidbody2D.");
             return;
         }
 

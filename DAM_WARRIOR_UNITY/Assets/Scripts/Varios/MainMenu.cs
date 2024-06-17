@@ -1,19 +1,25 @@
+/**
+ * MainMenu.cs
+ * Este script maneja las interacciones del men煤 principal, como iniciar el juego, cerrar la aplicaci贸n,
+ * y cerrar sesi贸n del usuario.
+ */
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public TMP_Text usernameText; // Campo para mostrar el nombre de usuario
-    public TMP_Text logoutButtonText; // Campo para el texto del bot髇 de logout
+    public TMP_Text usernameText; // Campo para mostrar el nombre de usuario.
+    public TMP_Text logoutButtonText; // Campo para el texto del bot贸n de logout.
 
     void Start()
     {
-        // Obtener el nombre de usuario de PlayerPrefs y mostrarlo en el texto
+        // Obtiene el nombre de usuario de PlayerPrefs y lo muestra en el texto.
         string username = PlayerPrefs.GetString("username", "Guest");
         usernameText.text = "Logged as: " + username;
 
-        // Cambiar el texto del bot髇 de logout si el usuario es "guest"
+        // Cambia el texto del bot贸n de logout si el usuario es "guest".
         if (username == "guest")
         {
             logoutButtonText.text = "Login";
@@ -26,22 +32,21 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        // Cargar la escena Map1
+        // Carga la escena Map1.
         SceneManager.LoadScene("Map1");
     }
 
     public void QuitGame()
     {
-        // Salir del juego
+        // Sale del juego.
         Application.Quit();
     }
 
     public void Logout()
     {
-        // Limpiar los PlayerPrefs
+        // Limpia los PlayerPrefs y carga la escena de login.
         PlayerPrefs.DeleteKey("username");
         PlayerPrefs.DeleteKey("password");
-        // Cargar la escena de login
         SceneManager.LoadScene("LoginScene");
     }
 }

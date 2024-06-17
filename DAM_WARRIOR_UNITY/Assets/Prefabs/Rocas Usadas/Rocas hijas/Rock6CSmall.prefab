@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 9040295738194268678}
-  - component: {fileID: -4752049531813699565}
-  - component: {fileID: 3643100602864219562}
+  - component: {fileID: 4354431278825765641}
+  - component: {fileID: 8887521373373540042}
   - component: {fileID: 3601180035152373493}
   m_Layer: 3
   m_Name: Rock6CSmall
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   rotationSpeed: 1000
---- !u!50 &-4752049531813699565
+--- !u!50 &4354431278825765641
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!60 &3643100602864219562
+--- !u!60 &8887521373373540042
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,16 +172,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.07083225, y: 0.9967897}
-      - {x: -1.1444545, y: 0.80819905}
-      - {x: -1.5110433, y: 0.530866}
-      - {x: -1.5804884, y: -0.4395941}
-      - {x: -1.1968524, y: -0.68450046}
-      - {x: -0.10408324, y: -0.8713919}
-      - {x: 1.1533546, y: -0.85630643}
-      - {x: 1.6129522, y: -0.60972166}
-      - {x: 1.5375651, y: 0.5047516}
-      - {x: 1.3449734, y: 0.74781406}
+    - - {x: 0.009681463, y: 1.7214142}
+      - {x: -1.607409, y: 0.5465292}
+      - {x: -0.9897353, y: -1.3544747}
+      - {x: 1.0090985, y: -1.3544745}
+      - {x: 1.6267718, y: 0.5465294}
   m_UseDelaunayMesh: 0
 --- !u!114 &3601180035152373493
 MonoBehaviour:
@@ -195,10 +190,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702e657c4f913534a85e55a919b063be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 2
   breakSounds: []
   explosionPrefab: {fileID: 0}
   rockPrefabs:
-  - {fileID: 100000}
-  canDivide: 1
+  - {fileID: 100000, guid: f282d9fb9b399dd4384b20aba08642fb, type: 3}
+  canDivide: 0
   explosionForce: 5
+  minScale: 0.5
+  maxScale: 1.5

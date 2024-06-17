@@ -16,23 +16,24 @@ public class PowerUpMovement : MonoBehaviour
 
     void Start()
     {
+        // Inicializa la salud y rota el objeto de forma aleatoria al inicio.
         currentHealth = maxHealth;
         transform.Rotate(0f, Random.Range(0f, 360f), 0f);
     }
 
     void Update()
     {
-        // Movimiento de izquierda a derecha
+        // Mueve el objeto hacia la izquierda.
         transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
 
-        // Movimiento de zigzag en el eje Y
+        // Realiza un movimiento en zigzag en el eje Y.
         float zigzagMovement = Mathf.Sin(Time.time * zigzagFrequency) * zigzagAmplitude;
         transform.Translate(Vector3.up * zigzagMovement * Time.deltaTime, Space.World);
 
-        // Rotación similar a las rocas
+        // Rota el objeto alrededor del eje Y.
         transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime, Space.World);
 
-        // Ajusta el valor de la posición x para cambiar el punto de destrucción
+        // Destruye el objeto si sale de la pantalla o si su salud llega a 0.
         if (transform.position.x < -20f || currentHealth <= 0)
         {
             PlayBreakSound();
@@ -42,8 +43,10 @@ public class PowerUpMovement : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        // Reduce la salud del objeto cuando recibe daÃ±o.
         currentHealth -= damage;
 
+        // Destruye el objeto si su salud llega a 0.
         if (currentHealth <= 0)
         {
             PlayBreakSound();
@@ -53,6 +56,7 @@ public class PowerUpMovement : MonoBehaviour
 
     private void PlayBreakSound()
     {
+        // Reproduce un sonido cuando el objeto es destruido.
         if (breakSound != null)
         {
             audioSource.clip = breakSound;

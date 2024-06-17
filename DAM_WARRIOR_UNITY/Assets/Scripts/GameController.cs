@@ -12,32 +12,37 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        tiempoInicio = Time.time; // Almacena el tiempo de inicio
+        // Almacena el tiempo de inicio al comenzar la partida.
+        tiempoInicio = Time.time;
     }
 
     public void RegistrarDisparo(bool acertado)
     {
+        // Registra un disparo y si fue acertado, incrementa la puntuación.
         disparosRealizados++;
         if (acertado)
         {
             disparosAcertados++;
-            ScoreManager.Instance.AddScore(10); // Incrementa la puntuaci�n por disparo acertado
+            ScoreManager.Instance.AddScore(10); // Incrementa la puntuación por disparo acertado.
         }
     }
 
     public void RegistrarDanoCausado(int dano)
     {
+        // Registra el daño causado y añade la puntuación correspondiente.
         danoCausado += dano;
-        ScoreManager.Instance.AddScore(dano); // Incrementa la puntuaci�n por el da�o causado
+        ScoreManager.Instance.AddScore(dano); // Incrementa la puntuación por el daño causado.
     }
 
     public void RegistrarDanoRecibido(int dano)
     {
+        // Registra el daño recibido.
         danoRecibido += dano;
     }
 
     public void FinalizarPartida()
     {
+        // Calcula las estadísticas de la partida y las guarda.
         float tiempoCompletado = Time.time - tiempoInicio;
         float precision = (disparosRealizados > 0) ? (float)disparosAcertados / disparosRealizados : 0f;
 
@@ -56,11 +61,11 @@ public class GameController : MonoBehaviour
 
     private void GuardarEstadisticas(GameStatistics estadisticas)
     {
-        // Guardar las estad�sticas en PlayerPrefs como JSON
+        // Guarda las estadísticas en PlayerPrefs como JSON.
         string json = JsonUtility.ToJson(estadisticas);
         PlayerPrefs.SetString("ultimaPartida", json);
         PlayerPrefs.Save();
 
-        Debug.Log("Estad�sticas guardadas: " + json);
+        Debug.Log("Estadísticas guardadas: " + json);
     }
 }

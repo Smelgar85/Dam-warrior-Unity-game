@@ -1,24 +1,31 @@
+/**
+ * BossMovement.cs
+ * Este script controla el movimiento del jefe, incluyendo avance inicial y oscilaci贸n.
+ */
+
 using UnityEngine;
 
 public class BossMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f; // Velocidad de movimiento del jefe
-    public float advanceDistance = 5f; // Distancia que avanza inicialmente
-    public float swayDistance = 1f; // Distancia de oscilaci髇 hacia adelante y hacia atr醩
-    public float swaySpeed = 1f; // Velocidad de oscilaci髇
-    public float verticalSwayDistance = 1f; // Distancia de oscilaci髇 vertical
-    public float verticalSwaySpeed = 1f; // Velocidad de oscilaci髇 vertical
+    public float moveSpeed = 5f; // Velocidad de movimiento del jefe.
+    public float advanceDistance = 5f; // Distancia que avanza inicialmente.
+    public float swayDistance = 1f; // Distancia de oscilaci贸n hacia adelante y hacia atr谩s.
+    public float swaySpeed = 1f; // Velocidad de oscilaci贸n.
+    public float verticalSwayDistance = 1f; // Distancia de oscilaci贸n vertical.
+    public float verticalSwaySpeed = 1f; // Velocidad de oscilaci贸n vertical.
 
     private Vector3 initialPosition;
     private bool advancing = true;
 
     void Start()
     {
+        // Guarda la posici贸n inicial del jefe.
         initialPosition = transform.position;
     }
 
     void Update()
     {
+        // Controla el movimiento del jefe, alternando entre avanzar y oscilar.
         if (advancing)
         {
             Advance();
@@ -31,9 +38,10 @@ public class BossMovement : MonoBehaviour
 
     void Advance()
     {
+        // Mueve el jefe hacia la izquierda hasta alcanzar la distancia de avance.
         transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
 
-        // Si ha avanzado la distancia deseada, detiene el avance
+        // Si ha avanzado la distancia deseada, detiene el avance.
         if (transform.position.x <= initialPosition.x - advanceDistance)
         {
             advancing = false;
@@ -42,14 +50,13 @@ public class BossMovement : MonoBehaviour
 
     void Sway()
     {
-        // Oscilaci髇 horizontal
+        // Oscilaci贸n horizontal y vertical.
         float swayAmount = Mathf.Sin(Time.time * swaySpeed) * swayDistance;
-        // Oscilaci髇 vertical
         float verticalSwayAmount = Mathf.Sin(Time.time * verticalSwaySpeed) * verticalSwayDistance;
 
         transform.position = new Vector3(initialPosition.x - advanceDistance + swayAmount, initialPosition.y + verticalSwayAmount, initialPosition.z);
 
-        // Si ha alcanzado el l韒ite de la oscilaci髇 hacia atr醩, vuelve a avanzar
+        // Si ha alcanzado el l铆mite de la oscilaci贸n hacia atr谩s, vuelve a avanzar.
         if (swayAmount <= -swayDistance)
         {
             advancing = true;

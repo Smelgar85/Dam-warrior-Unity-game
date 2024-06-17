@@ -1,22 +1,23 @@
 using UnityEngine;
+using System.Collections;
 
-public class RotateGameObject : MonoBehaviour
-{
-    public float rot_speed_x = 0f;
-    public float rot_speed_y = 0f;
-    public float rot_speed_z = 0f;
-    public bool local = false;
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (local)
-        {
-            transform.Rotate(Vector3.up, Time.deltaTime * rot_speed_x);
-        }
-        else
-        {
-            transform.Rotate(new Vector3(rot_speed_x, rot_speed_y, rot_speed_z) * Time.deltaTime, Space.World);
-        }
-    }
+public class RotateGameObject : MonoBehaviour {
+	public float rot_speed_x=0;
+	public float rot_speed_y=0;
+	public float rot_speed_z=0;
+	public bool local=false;
+	
+	// Use this for initialization
+	void Start () { 
+	
+	}
+	
+	// Update is called once per frame
+	void FixedUpdate () {
+		if (local) {
+			transform.RotateAroundLocal(transform.up, Time.fixedDeltaTime*rot_speed_x);
+		} else {
+			transform.Rotate(Time.fixedDeltaTime*new Vector3(rot_speed_x,rot_speed_y,rot_speed_z), Space.World);
+		}
+	}
 }

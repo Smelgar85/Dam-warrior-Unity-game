@@ -1,3 +1,10 @@
+/**
+ * LoginManager.cs
+ * Este script gestiona la funcionalidad de inicio de sesi√≥n, registro y acceso como invitado en el juego.
+ * Incluye la conexi√≥n a un servidor para autenticar y registrar usuarios, as√≠ como el manejo de transiciones 
+ * de escena con efectos de fade y sonido.
+ */
+
 using System.Collections;
 using UnityEngine;
 using TMPro;
@@ -17,27 +24,30 @@ public class LoginManager : MonoBehaviour
     public Animator fadeAnimator;
     public string nextSceneName = "MenuInicio"; // Nombre de la escena a cargar
 
-    // AÒadido para el sonido de login
+    // A√±adido para el sonido de login
     public AudioSource audioSource;
     public AudioClip loginSound;
 
+    // A√±adido para el fade de audio
+    public AudioFader audioFader;
+
     void Start()
     {
-        // Asegurarse de que la imagen de fade est· inicializada como transparente
+        // Inicializa la imagen de fade como transparente.
         fadeImage.color = new Color(0, 0, 0, 0);
 
-        // Configurar el campo de contraseÒa para que muestre asteriscos
+        // Configura el campo de contrase√±a para mostrar asteriscos.
         passwordInput.contentType = TMP_InputField.ContentType.Password;
-        passwordInput.ForceLabelUpdate(); // Actualiza el campo para que se apliquen los cambios
+        passwordInput.ForceLabelUpdate(); // Actualiza el campo para que se apliquen los cambios.
 
-        // AÒadir listener para la tecla Enter en ambos campos de entrada
+        // A√±ade listener para la tecla Enter en ambos campos de entrada.
         usernameInput.onSubmit.AddListener(delegate { OnEnterKeyPressed(); });
         passwordInput.onSubmit.AddListener(delegate { OnEnterKeyPressed(); });
     }
 
     void Update()
     {
-        // Detectar la tecla Enter para iniciar sesiÛn
+        // Detecta la tecla Enter para iniciar sesi√≥n.
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             OnLoginButtonClicked();
@@ -46,26 +56,27 @@ public class LoginManager : MonoBehaviour
 
     public void OnLoginButtonClicked()
     {
-        // Reproducir sonido de login si est· configurado
+        // Reproduce sonido de login si est√° configurado.
         if (audioSource != null && loginSound != null)
         {
             audioSource.PlayOneShot(loginSound);
         }
 
+        // Inicia el proceso de login.
         StartCoroutine(Login());
     }
 
     public void OnGuestButtonClicked()
     {
-        // Establecer el usuario y contraseÒa como "guest"
+        // Establece el usuario y contrase√±a como "guest" y carga la escena siguiente.
         PlayerPrefs.SetString("username", "guest");
         PlayerPrefs.SetString("password", "guest");
-        // Iniciar el fade out
         StartCoroutine(FadeOutAndChangeScene());
     }
 
     private IEnumerator Login()
     {
+        // Env√≠a los datos de login al servidor y maneja la respuesta.
         string username = usernameInput.text;
         string password = passwordInput.text;
 
@@ -84,7 +95,7 @@ public class LoginManager : MonoBehaviour
         {
             if (www.downloadHandler.text.Contains("incorrectos"))
             {
-                messageText.text = "Nombre de usuario o contraseÒa incorrectos.";
+                messageText.text = "Wrong username or password.";
             }
             else
             {
@@ -97,11 +108,13 @@ public class LoginManager : MonoBehaviour
 
     public void OnRegisterButtonClicked()
     {
+        // Inicia el proceso de registro.
         StartCoroutine(Register());
     }
 
     private IEnumerator Register()
     {
+        // Env√≠a los datos de registro al servidor y maneja la respuesta.
         string username = usernameInput.text;
         string password = passwordInput.text;
 
@@ -124,13 +137,20 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator FadeOutAndChangeScene()
     {
+        // Inicia el efecto de fade out y cambia de escena.
+        if (audioFader != null)
+        {
+            audioFader.FadeOutAudio();
+        }
+
         fadeAnimator.Play("FadeOut");
-        yield return new WaitForSeconds(1); // Ajusta el tiempo seg˙n la duraciÛn de tu animaciÛn de fade out
+        yield return new WaitForSeconds(1); // Ajusta el tiempo seg√∫n la duraci√≥n de tu animaci√≥n de fade out.
         SceneManager.LoadScene(nextSceneName);
     }
 
     private void OnEnterKeyPressed()
     {
+        // Maneja la tecla Enter para iniciar sesi√≥n.
         OnLoginButtonClicked();
     }
 }

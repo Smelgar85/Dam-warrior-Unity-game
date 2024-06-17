@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 9040295738194268678}
-  - component: {fileID: -4752049531813699565}
-  - component: {fileID: 3643100602864219562}
-  - component: {fileID: 3601180035152373493}
+  - component: {fileID: -9035223977993770738}
+  - component: {fileID: -2486392312765894640}
+  - component: {fileID: 1712715980724456637}
+  - component: {fileID: 6890750129664978929}
   m_Layer: 3
   m_Name: Rock6C
   m_TagString: Rock
@@ -30,10 +30,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9040295738194268678
+--- !u!114 &-9035223977993770738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 10
---- !u!50 &-4752049531813699565
+--- !u!50 &-2486392312765894640
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!60 &3643100602864219562
+--- !u!60 &1712715980724456637
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,18 +172,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.07083225, y: 0.9967897}
-      - {x: -1.1444545, y: 0.80819905}
-      - {x: -1.5110433, y: 0.530866}
-      - {x: -1.5804884, y: -0.4395941}
-      - {x: -1.1968524, y: -0.68450046}
-      - {x: -0.10408324, y: -0.8713919}
-      - {x: 1.1533546, y: -0.85630643}
-      - {x: 1.6129522, y: -0.60972166}
-      - {x: 1.5375651, y: 0.5047516}
-      - {x: 1.3449734, y: 0.74781406}
+    - - {x: 0.009681463, y: 1.7214142}
+      - {x: -1.607409, y: 0.5465292}
+      - {x: -0.9897353, y: -1.3544747}
+      - {x: 1.0090985, y: -1.3544745}
+      - {x: 1.6267718, y: 0.5465294}
   m_UseDelaunayMesh: 0
---- !u!114 &3601180035152373493
+--- !u!114 &6890750129664978929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,40 +1,47 @@
+/**
+ * CustomCursor.cs
+ * Este script permite personalizar el cursor del juego y ocultarlo tras un perÃ­odo de inactividad.
+ */
+
 using UnityEngine;
 
 public class CustomCursor : MonoBehaviour
 {
     [Tooltip("La textura del cursor")]
-    public Texture2D cursorTexture; // La textura del cursor
+    public Texture2D cursorTexture; // La textura del cursor.
     [Tooltip("Punto caliente del cursor (0,0) es la esquina superior izquierda)")]
-    public Vector2 hotSpot = Vector2.zero; // Punto caliente del cursor
-    public CursorMode cursorMode = CursorMode.Auto; // Modo del cursor
-    public float hideDelay = 2f; // Tiempo de inactividad antes de ocultar el cursor (en segundos)
+    public Vector2 hotSpot = Vector2.zero; // Punto caliente del cursor.
+    public CursorMode cursorMode = CursorMode.Auto; // Modo del cursor.
+    public float hideDelay = 2f; // Tiempo de inactividad antes de ocultar el cursor (en segundos).
 
-    private float lastMouseMoveTime; // Última vez que el mouse se movió
+    private float lastMouseMoveTime; // Ãšltima vez que el mouse se moviÃ³.
 
     void Start()
     {
+        // Configura el cursor personalizado.
         SetCursor();
         lastMouseMoveTime = Time.time;
     }
 
     void Update()
     {
+        // Detecta si el mouse se mueve y actualiza el tiempo de la Ãºltima actividad.
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
-            // Si el mouse se mueve, actualiza el tiempo de la última actividad y muestra el cursor
             lastMouseMoveTime = Time.time;
             ShowCursor();
         }
 
+        // Oculta el cursor si ha pasado el tiempo de inactividad.
         if (Time.time - lastMouseMoveTime > hideDelay)
         {
-            // Si ha pasado el tiempo de inactividad, oculta el cursor
             HideCursor();
         }
     }
 
     void SetCursor()
     {
+        // Establece la textura del cursor.
         if (cursorTexture != null)
         {
             Cursor.SetCursor(cursorTexture, hotSpot, CursorMode.ForceSoftware);
@@ -47,11 +54,13 @@ public class CustomCursor : MonoBehaviour
 
     void ShowCursor()
     {
+        // Muestra el cursor.
         Cursor.visible = true;
     }
 
     void HideCursor()
     {
+        // Oculta el cursor.
         Cursor.visible = false;
     }
 }

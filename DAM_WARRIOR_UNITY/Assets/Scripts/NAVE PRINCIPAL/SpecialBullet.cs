@@ -1,3 +1,8 @@
+/**
+ * SpecialBullet.cs
+ * Este script controla el comportamiento de las balas especiales en el juego.
+ */
+
 using UnityEngine;
 
 public class SpecialBullet : MonoBehaviour
@@ -9,12 +14,14 @@ public class SpecialBullet : MonoBehaviour
 
     void Start()
     {
+        // Destruye la bala después de su vida útil y obtiene la referencia al audio source.
         Destroy(gameObject, lifetime);
         audioSource = GameObject.Find("SFX_SHOOT2").GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Aplica daño según el tipo de objeto con el que colisiona.
         if (collision.gameObject.CompareTag("Rock"))
         {
             DamageRock(collision.gameObject);
@@ -27,6 +34,7 @@ public class SpecialBullet : MonoBehaviour
 
     void DamageRock(GameObject rock)
     {
+        // Aplica daño a una roca y reproduce el sonido de impacto.
         RockHealth rockHealth = rock.GetComponent<RockHealth>();
 
         if (rockHealth != null)
@@ -42,6 +50,7 @@ public class SpecialBullet : MonoBehaviour
 
     void DamageEnemy(GameObject enemy)
     {
+        // Aplica daño a un enemigo o jefe y reproduce el sonido de impacto.
         BossHealth bossHealth = enemy.GetComponent<BossHealth>();
 
         if (bossHealth != null)
@@ -69,6 +78,7 @@ public class SpecialBullet : MonoBehaviour
 
     void PlayHitSound()
     {
+        // Reproduce el sonido de impacto si está configurado.
         if (hitSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(hitSound);

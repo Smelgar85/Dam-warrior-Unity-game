@@ -3,63 +3,43 @@
   <TypeDate>
     <guid>5e9bab3a03ba2844b9ba83e7279ce142</guid>
     <fileName>Assets/Plugins/UnitySweeper/Editor/AssetCollector.cs</fileName>
-    <timeStamp>2024-04-22T21:28:25.7157892+02:00</timeStamp>
-    <typeFullName>
-      <string>UnitySweeper.AssetCollector</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <timeStamp>2024-04-22T21:28:25+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>6aaef19c5415f134fb671528f91b861c</guid>
     <fileName>Assets/Plugins/UnitySweeper/Editor/AssetReferenceCollection.cs</fileName>
-    <timeStamp>2024-04-22T21:28:25.7167899+02:00</timeStamp>
-    <typeFullName>
-      <string>UnitySweeper.AssetReferenceCollection</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <timeStamp>2024-04-22T21:28:25+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>ef14c9b1dbfffae46a798b4b643ad091</guid>
     <fileName>Assets/Plugins/UnitySweeper/Editor/ClassReferenceCollection.cs</fileName>
-    <timeStamp>2024-04-22T21:28:25.7167899+02:00</timeStamp>
-    <typeFullName>
-      <string>UnitySweeper.ClassReferenceCollection</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <timeStamp>2024-04-22T21:28:25+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>607d1a6a6b710ae4faf77a72bb075abc</guid>
     <fileName>Assets/Plugins/UnitySweeper/Editor/CollectionData.cs</fileName>
-    <timeStamp>2024-04-22T21:28:25.7179691+02:00</timeStamp>
-    <typeFullName>
-      <string>UnitySweeper.CollectionData</string>
-      <string>UnitySweeper.TypeDate</string>
-      <string>UnitySweeper.IReferenceCollection</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <timeStamp>2024-04-22T21:28:25+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>bdc6b9a3495e7b742a102a634afc876d</guid>
     <fileName>Assets/Plugins/UnitySweeper/Editor/FindUnusedAssetsWindow.cs</fileName>
-    <timeStamp>2024-04-22T21:28:25.7179691+02:00</timeStamp>
-    <typeFullName>
-      <string>UnitySweeper.FindUnusedAssetsWindow</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <timeStamp>2024-04-22T21:28:25+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>662ee3933a2734647afc8c61dadc0586</guid>
     <fileName>Assets/Plugins/UnitySweeper/Editor/ShaderReferenceCollection.cs</fileName>
-    <timeStamp>2024-04-22T21:28:25.7179691+02:00</timeStamp>
-    <typeFullName>
-      <string>UnitySweeper.ShaderReferenceCollection</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <timeStamp>2024-04-22T21:28:25+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>2527ea52552f8b64ba220b9b60713505</guid>
     <fileName>Assets/LaserShoot1.cs</fileName>
-    <timeStamp>2024-02-28T04:50:40.0994249+01:00</timeStamp>
+    <timeStamp>2024-02-28T04:50:40+01:00</timeStamp>
     <typeFullName>
       <string>LaserShoot1</string>
     </typeFullName>
@@ -68,34 +48,31 @@
   <TypeDate>
     <guid>767863fa43e11d54b92cc6e30a8d0dbf</guid>
     <fileName>Assets/MovimientoNave1.cs</fileName>
-    <timeStamp>2024-02-28T04:50:51.3448085+01:00</timeStamp>
+    <timeStamp>2024-02-28T04:50:51+01:00</timeStamp>
     <typeFullName>
       <string>MovimientoNave1</string>
     </typeFullName>
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
-    <guid>3572b2a9c2535244aa0de02d91fe2d2c</guid>
-    <fileName>Assets/Scripts/BossHealth.cs</fileName>
-    <timeStamp>2024-03-06T04:32:45.5486469+01:00</timeStamp>
-    <typeFullName>
-      <string>BossHealth</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <guid>d78036b160ae0ce418cc1ccacd1fac11</guid>
+    <fileName>Assets/InputActions/PlayerInput.cs</fileName>
+    <timeStamp>2024-05-10T20:39:59+02:00</timeStamp>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
-    <guid>020343260736d7d449ac9f46b6ed7db6</guid>
-    <fileName>Assets/Scripts/BulletEnemigo.cs</fileName>
-    <timeStamp>2024-02-28T00:01:03.2845831+01:00</timeStamp>
+    <guid>4cb2cebfeaa2daa44911f69fc65ff9de</guid>
+    <fileName>Assets/Scripts/GameController.cs</fileName>
+    <timeStamp>2024-06-13T03:41:03.5164511+02:00</timeStamp>
     <typeFullName>
-      <string>BulletEnemigo</string>
+      <string>GameController</string>
     </typeFullName>
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
     <guid>916d401c0f30e9044a99695b747ae0f4</guid>
     <fileName>Assets/Scripts/GameManager.cs</fileName>
-    <timeStamp>2024-02-28T23:55:29.1288076+01:00</timeStamp>
+    <timeStamp>2024-05-04T01:31:28.78764+02:00</timeStamp>
     <typeFullName>
       <string>GameManager</string>
     </typeFullName>
@@ -104,34 +81,34 @@
   <TypeDate>
     <guid>0756363db0b90e84aad2521e0fa10897</guid>
     <fileName>Assets/Scripts/MenuInicial.cs</fileName>
-    <timeStamp>2024-01-10T04:21:08.772612+01:00</timeStamp>
+    <timeStamp>2024-05-04T01:31:29+02:00</timeStamp>
     <typeFullName>
       <string>MenuInicial</string>
     </typeFullName>
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
-    <guid>e636ba2746444364ab2f4d2a325d6a10</guid>
-    <fileName>Assets/Scripts/MovimientoFondo.cs</fileName>
-    <timeStamp>2024-01-10T04:57:10.9710789+01:00</timeStamp>
-    <typeFullName>
-      <string>MovimientoFondo</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
-  </TypeDate>
-  <TypeDate>
     <guid>cecf20c2404a6de4a95873cf047ddf85</guid>
     <fileName>Assets/Scripts/PowerUpMovement.cs</fileName>
-    <timeStamp>2023-12-21T18:09:52.0999814+01:00</timeStamp>
+    <timeStamp>2023-12-21T18:09:52+01:00</timeStamp>
     <typeFullName>
       <string>PowerUpMovement</string>
     </typeFullName>
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
+    <guid>5a7300eb9a5b6b04eb5e55a4288f1287</guid>
+    <fileName>Assets/Scripts/SceneController.cs</fileName>
+    <timeStamp>2024-05-04T01:31:30.7948409+02:00</timeStamp>
+    <typeFullName>
+      <string>SceneController</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
     <guid>4d530cbba22827a4b84b1c2adc86b5dc</guid>
     <fileName>Assets/Scripts/StageManager.cs</fileName>
-    <timeStamp>2024-03-06T04:55:59.1170123+01:00</timeStamp>
+    <timeStamp>2024-06-15T04:11:09.2422055+02:00</timeStamp>
     <typeFullName>
       <string>StageManager</string>
       <string>StageManager+GameStage</string>
@@ -150,9 +127,18 @@
   <TypeDate>
     <guid>8922ed451d14d75478d2565754f0c719</guid>
     <fileName>Assets/Rocks and Boulders 2/Shaders/RotateGameObject.cs</fileName>
-    <timeStamp>2023-11-17T04:46:07.1306184+01:00</timeStamp>
+    <timeStamp>2018-02-07T16:05:45+01:00</timeStamp>
     <typeFullName>
       <string>RotateGameObject</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>3572b2a9c2535244aa0de02d91fe2d2c</guid>
+    <fileName>Assets/Scripts/Boss/BossHealth.cs</fileName>
+    <timeStamp>2024-06-15T04:35:56.6600673+02:00</timeStamp>
+    <typeFullName>
+      <string>BossHealth</string>
     </typeFullName>
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
@@ -168,7 +154,7 @@
   <TypeDate>
     <guid>4dce3da8139d3504880f915d74669522</guid>
     <fileName>Assets/Scripts/Boss/BossSpawner.cs</fileName>
-    <timeStamp>2024-02-28T20:29:18.6784717+01:00</timeStamp>
+    <timeStamp>2024-06-15T03:51:21.6154279+02:00</timeStamp>
     <typeFullName>
       <string>BossSpawner</string>
     </typeFullName>
@@ -211,9 +197,18 @@
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
+    <guid>020343260736d7d449ac9f46b6ed7db6</guid>
+    <fileName>Assets/Scripts/ENEMIGOS/BulletEnemigo.cs</fileName>
+    <timeStamp>2024-06-15T02:01:07.1882951+02:00</timeStamp>
+    <typeFullName>
+      <string>BulletEnemigo</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
     <guid>7d19ab44e0b44af43a4e14651324b955</guid>
     <fileName>Assets/Scripts/ENEMIGOS/EnemyHealth.cs</fileName>
-    <timeStamp>2024-03-06T03:34:19.6283481+01:00</timeStamp>
+    <timeStamp>2024-06-15T04:28:07.149731+02:00</timeStamp>
     <typeFullName>
       <string>EnemyHealth</string>
     </typeFullName>
@@ -222,7 +217,7 @@
   <TypeDate>
     <guid>c0520aeb40f47ff4c934fe7343d83317</guid>
     <fileName>Assets/Scripts/ENEMIGOS/LaserShootEnemy.cs</fileName>
-    <timeStamp>2024-02-28T00:18:14.8707239+01:00</timeStamp>
+    <timeStamp>2024-06-14T17:13:24.2792045+02:00</timeStamp>
     <typeFullName>
       <string>LaserShootEnemy</string>
     </typeFullName>
@@ -231,7 +226,7 @@
   <TypeDate>
     <guid>3d8eeb3e31ca3a1488f17e328be5c0aa</guid>
     <fileName>Assets/Scripts/ENEMIGOS/MovimientoEnemigoZigZag.cs</fileName>
-    <timeStamp>2024-02-29T00:38:00.555278+01:00</timeStamp>
+    <timeStamp>2024-06-14T17:09:13.187846+02:00</timeStamp>
     <typeFullName>
       <string>MovimientoEnemigoZigZag</string>
     </typeFullName>
@@ -240,7 +235,7 @@
   <TypeDate>
     <guid>c8999ec043ba5a44998f874d2fea6aed</guid>
     <fileName>Assets/Scripts/ENEMIGOS/SpaceShipSpawner.cs</fileName>
-    <timeStamp>2024-02-27T21:28:30.1704034+01:00</timeStamp>
+    <timeStamp>2024-06-14T02:31:14.4599384+02:00</timeStamp>
     <typeFullName>
       <string>SpaceShipSpawner</string>
     </typeFullName>
@@ -249,7 +244,7 @@
   <TypeDate>
     <guid>c75c989277b80c54ea58ffab904dbf15</guid>
     <fileName>Assets/Scripts/NAVE PRINCIPAL/BigBullet.cs</fileName>
-    <timeStamp>2024-02-28T00:55:43.8109802+01:00</timeStamp>
+    <timeStamp>2024-06-15T02:13:42.2835362+02:00</timeStamp>
     <typeFullName>
       <string>BigBullet</string>
     </typeFullName>
@@ -258,7 +253,7 @@
   <TypeDate>
     <guid>ca5a04c8535fd034a9c5e053c5f6813e</guid>
     <fileName>Assets/Scripts/NAVE PRINCIPAL/Bullet.cs</fileName>
-    <timeStamp>2024-02-28T05:50:58.1418834+01:00</timeStamp>
+    <timeStamp>2024-06-15T04:45:07.4418075+02:00</timeStamp>
     <typeFullName>
       <string>Bullet</string>
     </typeFullName>
@@ -267,7 +262,7 @@
   <TypeDate>
     <guid>e889b14bcd865ca459b42a770bacd506</guid>
     <fileName>Assets/Scripts/NAVE PRINCIPAL/LaserShoot.cs</fileName>
-    <timeStamp>2024-02-28T22:46:52.5421231+01:00</timeStamp>
+    <timeStamp>2024-06-15T04:26:29.0661988+02:00</timeStamp>
     <typeFullName>
       <string>LaserShoot1</string>
       <string>LaserShoot</string>
@@ -277,7 +272,7 @@
   <TypeDate>
     <guid>116d458cd3d56ef448acde12bc2d390e</guid>
     <fileName>Assets/Scripts/NAVE PRINCIPAL/MovimientoNave.cs</fileName>
-    <timeStamp>2024-03-06T00:40:05.5705482+01:00</timeStamp>
+    <timeStamp>2024-06-14T17:08:15.3961357+02:00</timeStamp>
     <typeFullName>
       <string>MovimientoNave1</string>
       <string>MovimientoNave</string>
@@ -285,15 +280,18 @@
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
-    <guid>fbb07a5ef130b364da840dca00ad6098</guid>
-    <fileName>Assets/Scripts/NAVE PRINCIPAL/PlayerInput.cs</fileName>
-    <timeStamp>2024-02-28T04:11:45.8885583+01:00</timeStamp>
-    <typeFullName />
+    <guid>887a11ba10b035142a6a6b2a530ed8f9</guid>
+    <fileName>Assets/Scripts/NAVE PRINCIPAL/SpecialBullet.cs</fileName>
+    <timeStamp>2024-06-15T02:06:18+02:00</timeStamp>
+    <typeFullName>
+      <string>SpecialBullet</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
   <TypeDate>
     <guid>7352d908f5e9ecb42bc5481b344ab673</guid>
     <fileName>Assets/Scripts/NAVE PRINCIPAL/VidaNave.cs</fileName>
-    <timeStamp>2024-03-06T02:46:19.6753671+01:00</timeStamp>
+    <timeStamp>2024-06-15T04:28:21.3675087+02:00</timeStamp>
     <typeFullName>
       <string>VidaNave</string>
     </typeFullName>
@@ -302,7 +300,7 @@
   <TypeDate>
     <guid>702e657c4f913534a85e55a919b063be</guid>
     <fileName>Assets/Scripts/ROCAS/RockHealth.cs</fileName>
-    <timeStamp>2024-02-27T17:49:34.1500789+01:00</timeStamp>
+    <timeStamp>2024-06-16T02:39:46.3890179+02:00</timeStamp>
     <typeFullName>
       <string>RockHealth</string>
     </typeFullName>
@@ -320,9 +318,144 @@
   <TypeDate>
     <guid>71fbea4c687b7a043b6a2d73dfbf3d2a</guid>
     <fileName>Assets/Scripts/ROCAS/RockSpawner.cs</fileName>
-    <timeStamp>2024-02-27T19:06:00.7796544+01:00</timeStamp>
+    <timeStamp>2024-06-14T02:30:58.7238635+02:00</timeStamp>
     <typeFullName>
       <string>RockSpawner</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>d30e4cbf52e4cb049a9809db36245893</guid>
+    <fileName>Assets/Scripts/Varios/AudioFader.cs</fileName>
+    <timeStamp>2024-06-16T03:25:21.0129028+02:00</timeStamp>
+    <typeFullName>
+      <string>AudioFader</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>9f0f8b7c8051cba44ac966512a82ef8c</guid>
+    <fileName>Assets/Scripts/Varios/BulletPool.cs</fileName>
+    <timeStamp>2024-06-15T02:06:14.8648155+02:00</timeStamp>
+    <typeFullName>
+      <string>BulletPool</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>f05b483ab9ec1d54b8c0bed246dd0079</guid>
+    <fileName>Assets/Scripts/Varios/CustomCursor.cs</fileName>
+    <timeStamp>2024-06-13T22:06:16.878072+02:00</timeStamp>
+    <typeFullName>
+      <string>CustomCursor</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>8f975228e70806547a7c862d5ed31c59</guid>
+    <fileName>Assets/Scripts/Varios/FadeInLogo.cs</fileName>
+    <timeStamp>2024-06-11T18:47:04.254474+02:00</timeStamp>
+    <typeFullName>
+      <string>FadeInLogo</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>2e44b8ca56a101841ab44a2bbd67597e</guid>
+    <fileName>Assets/Scripts/Varios/GameStatistics.cs</fileName>
+    <timeStamp>2024-06-15T04:31:11.2794994+02:00</timeStamp>
+    <typeFullName>
+      <string>GameStatistics</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>48953941d1cf925489e23e7741b58ea4</guid>
+    <fileName>Assets/Scripts/Varios/LoginManager.cs</fileName>
+    <timeStamp>2024-06-16T04:42:05.1596645+02:00</timeStamp>
+    <typeFullName>
+      <string>LoginManager</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>d81484eb28cd00744aee4d92a3a667a6</guid>
+    <fileName>Assets/Scripts/Varios/MainMenu.cs</fileName>
+    <timeStamp>2024-06-12T17:19:26.1714033+02:00</timeStamp>
+    <typeFullName>
+      <string>MainMenu</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>e636ba2746444364ab2f4d2a325d6a10</guid>
+    <fileName>Assets/Scripts/Varios/MovimientoFondo.cs</fileName>
+    <timeStamp>2024-05-04T01:31:27.8506439+02:00</timeStamp>
+    <typeFullName>
+      <string>MovimientoFondo</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>fd4ee73c639ba2945baeecbdea688eb4</guid>
+    <fileName>Assets/Scripts/Varios/OpenURL.cs</fileName>
+    <timeStamp>2024-06-11T19:48:09.9900026+02:00</timeStamp>
+    <typeFullName>
+      <string>OpenURL</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>172c988a3421e2e48bcab34fbe118d74</guid>
+    <fileName>Assets/Scripts/Varios/PlaySoundOnType.cs</fileName>
+    <timeStamp>2024-06-11T21:30:43.9388344+02:00</timeStamp>
+    <typeFullName>
+      <string>PlaySoundOnType</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>a86f9ec4fb70fd04f89552531abf3c4f</guid>
+    <fileName>Assets/Scripts/Varios/ResumenPartida.cs</fileName>
+    <timeStamp>2024-06-16T03:37:56.5085586+02:00</timeStamp>
+    <typeFullName>
+      <string>ResumenPartida</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>b7dbfac34afa46b43b7aa809afb554ed</guid>
+    <fileName>Assets/Scripts/Varios/SceneFader.cs</fileName>
+    <timeStamp>2024-06-16T03:16:05.7015454+02:00</timeStamp>
+    <typeFullName>
+      <string>SceneFader</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>98057b03965fd0b4a9f64b8236c5f86f</guid>
+    <fileName>Assets/Scripts/Varios/ScoreManager.cs</fileName>
+    <timeStamp>2024-06-15T05:31:01.5141432+02:00</timeStamp>
+    <typeFullName>
+      <string>ScoreManager</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>b224e6bb86824134f9db5c54c822c5fc</guid>
+    <fileName>Assets/Scripts/Varios/ScrollCredits.cs</fileName>
+    <timeStamp>2024-06-15T17:44:23.3799587+02:00</timeStamp>
+    <typeFullName>
+      <string>ScrollCredits</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>8016e1b5f9ad6b94b8e70096bda96d0d</guid>
+    <fileName>Assets/Scripts/Varios/TabNavigation.cs</fileName>
+    <timeStamp>2024-06-11T21:21:57.7997801+02:00</timeStamp>
+    <typeFullName>
+      <string>TabNavigation</string>
     </typeFullName>
     <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
   </TypeDate>
@@ -749,10 +882,7 @@
     <guid>0939ef1fe67b3477e8058638b5924ab5</guid>
     <fileName>Assets/UnityTechnologies/ParticlePack/Shared/Ramps/Editor/RampAssetEditor.cs</fileName>
     <timeStamp>2023-02-24T16:56:52+01:00</timeStamp>
-    <typeFullName>
-      <string>RampAssetEditor</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <typeFullName />
   </TypeDate>
   <TypeDate>
     <guid>366060de70f6d41d688e416621057bb3</guid>
@@ -767,9 +897,6 @@
     <guid>476cc7d7cd9874016adc216baab94a0a</guid>
     <fileName>Assets/UnityTechnologies/ParticlePack/TutorialInfo/Scripts/Editor/ReadmeEditor.cs</fileName>
     <timeStamp>2023-02-24T16:57:33+01:00</timeStamp>
-    <typeFullName>
-      <string>ReadmeEditor</string>
-    </typeFullName>
-    <assembly>Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+    <typeFullName />
   </TypeDate>
 </ArrayOfTypeDate>

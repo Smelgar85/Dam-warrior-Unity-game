@@ -1,60 +1,65 @@
+/**
+ * SpaceShipSpawner.cs
+ * Este script se utiliza para generar naves espaciales enemigas a intervalos aleatorios.
+ */
+
 using UnityEngine;
 
 public class SpaceShipSpawner : MonoBehaviour
 {
     public GameObject[] spaceShipPrefabs;
-    public float minSpawnInterval = 1.5f; // Intervalo mÌnimo de spawn de las naves
-    public float maxSpawnInterval = 3f; // Intervalo m·ximo de spawn de las naves
+    public float minSpawnInterval = 1.5f; // Intervalo m√≠nimo de spawn de las naves.
+    public float maxSpawnInterval = 3f; // Intervalo m√°ximo de spawn de las naves.
     public AudioSource spawnSound;
 
     private bool isSpawning = false;
 
     void Start()
     {
-        // No iniciar spawneo aquÌ, esperar a que el StageManager lo haga
-        // StartSpawning();
+        // No iniciar spawneo aqu√≠, esperar a que el StageManager lo haga.
     }
 
     public void StartSpawning()
     {
+        // Inicia la generaci√≥n de naves espaciales.
         isSpawning = true;
         SpawnSpaceShipWithRandomInterval();
     }
 
     public void StopSpawning()
     {
+        // Detiene la generaci√≥n de naves espaciales.
         isSpawning = false;
         CancelInvoke("SpawnSpaceShipWithRandomInterval");
     }
 
     void SpawnSpaceShipWithRandomInterval()
     {
+        // Genera una nave solo si el spawner est√° activo.
         if (!isSpawning)
         {
             return;
         }
 
-        // Genera una nave solo si el spawner est· activo
         InstantiateSpaceShip();
 
-        // Llama a la funciÛn para spawnear la siguiente nave despuÈs de un tiempo aleatorio
+        // Llama a la funci√≥n para spawnear la siguiente nave despu√©s de un tiempo aleatorio.
         Invoke("SpawnSpaceShipWithRandomInterval", Random.Range(minSpawnInterval, maxSpawnInterval));
     }
 
     void InstantiateSpaceShip()
     {
-        // Selecciona un prefab de nave aleatorio
+        // Selecciona un prefab de nave aleatorio y la instancia en una posici√≥n inicial.
         GameObject randomSpaceShipPrefab = spaceShipPrefabs[Random.Range(0, spaceShipPrefabs.Length)];
-
-        // Genera la nave en una posiciÛn inicial
         GameObject spaceShip = Instantiate(randomSpaceShipPrefab, transform.position, Quaternion.identity);
 
-        // Reproduce el sonido de spawn si est· configurado
+        // Reproduce el sonido de spawn si est√° configurado.
         PlaySpawnSound();
     }
 
     private void PlaySpawnSound()
     {
+        // Reproduce el sonido de spawn si est√° configurado.
         if (spawnSound != null)
         {
             spawnSound.Play();

@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# Modelo para representar un Usuario
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_usuario = db.Column(db.String(80), unique=True, nullable=False)
@@ -11,11 +12,13 @@ class Usuario(db.Model):
     amistades1 = db.relationship('Amistad', foreign_keys='Amistad.usuario_id1', backref='amigo1', lazy=True)
     amistades2 = db.relationship('Amistad', foreign_keys='Amistad.usuario_id2', backref='amigo2', lazy=True)
 
+# Modelo para representar un Mapa
 class Mapa(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_mapa = db.Column(db.String(80), unique=True, nullable=False)
     partidas = db.relationship('Partida', backref='mapa', lazy=True)
 
+# Modelo para representar una Partida
 class Partida(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
@@ -27,6 +30,7 @@ class Partida(db.Model):
     dano_recibido = db.Column(db.Integer, nullable=False)
     dano_infligido = db.Column(db.Integer, nullable=False)
 
+# Modelo para representar una Amistad
 class Amistad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id1 = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)

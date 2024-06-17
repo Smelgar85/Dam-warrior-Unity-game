@@ -1,3 +1,8 @@
+/**
+ * BigBullet.cs
+ * Este script controla el comportamiento de las balas grandes en el juego.
+ */
+
 using UnityEngine;
 
 public class BigBullet : MonoBehaviour
@@ -11,6 +16,7 @@ public class BigBullet : MonoBehaviour
 
     void Start()
     {
+        // Destruye la bala después de su vida útil y obtiene la referencia al audio source.
         Destroy(gameObject, lifetime);
         audioSource = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
         escalador = GameObject.Find("Escalador").transform;
@@ -18,6 +24,7 @@ public class BigBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        // Aplica daño según el tipo de objeto con el que colisiona.
         if (other.gameObject.CompareTag("Rock"))
         {
             DamageRock(other.gameObject);
@@ -30,6 +37,7 @@ public class BigBullet : MonoBehaviour
 
     void DamageRock(GameObject rock)
     {
+        // Aplica daño a una roca y reproduce el sonido de impacto.
         RockHealth rockHealth = rock.GetComponent<RockHealth>();
 
         if (rockHealth != null)
@@ -43,6 +51,7 @@ public class BigBullet : MonoBehaviour
 
     void DamageEnemy(GameObject enemy)
     {
+        // Aplica daño a un enemigo o jefe y reproduce el sonido de impacto.
         BossHealth bossHealth = enemy.GetComponent<BossHealth>();
 
         if (bossHealth != null)
@@ -66,11 +75,11 @@ public class BigBullet : MonoBehaviour
         }
 
         IncrementPowerBarScale();
-        
     }
 
     void IncrementPowerBarScale()
     {
+        // Incrementa la escala de la barra de poder.
         if (escalador != null)
         {
             Vector3 newScale = escalador.localScale + new Vector3(0.1f, 0f, 0f);
@@ -85,6 +94,7 @@ public class BigBullet : MonoBehaviour
 
     void PlayHitSound()
     {
+        // Reproduce el sonido de impacto si está configurado.
         if (hitSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(hitSound);

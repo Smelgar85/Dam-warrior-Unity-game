@@ -1,3 +1,8 @@
+/**
+ * EnemyHealth.cs
+ * Este script maneja la salud de los enemigos y su destrucción.
+ */
+
 using System.Collections;
 using UnityEngine;
 
@@ -13,11 +18,12 @@ public class EnemyHealth : MonoBehaviour
     public float duracionFadeInEn = 1f;
     public float duracionFadeOutEn = 1f;
     public float esperaFadeOutEn = 1f;
-    private bool isDead = false; // Nueva variable de control
+    private bool isDead = false; // Nueva variable de control.
     private GameController gameController;
 
     void Start()
     {
+        // Inicializa referencias y verifica componentes.
         explosionAudioSource = GameObject.Find("SFX_DEATH_ENEMY").GetComponent<AudioSource>();
         audioSource = GetComponent<AudioSource>();
         gameController = FindObjectOfType<GameController>();
@@ -30,7 +36,8 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        if (isDead) return; // Evitar aplicar da�o si ya est� muerto
+        // Aplica daño al enemigo y maneja su muerte si la salud llega a cero.
+        if (isDead) return; // Evitar aplicar daño si ya está muerto.
         health -= damageAmount;
         ScoreManager.Instance.RegisterDamageDealt(damageAmount);
         Debug.Log("Enemy took damage. Current health: " + health);
@@ -49,9 +56,11 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return; // Evitar ejecutar Die() m�s de una vez
+        // Maneja la muerte del enemigo.
+        if (isDead) return; // Evitar ejecutar Die() más de una vez.
         isDead = true;
 
+        // Genera un efecto de muerte y reproduce un sonido de explosión.
         if (deathEffectPrefab != null)
         {
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
@@ -71,6 +80,7 @@ public class EnemyHealth : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Aplica daño al enemigo si colisiona con una bala o una roca.
         if (collision.gameObject.CompareTag("BulletEnemy"))
         {
             return;
@@ -78,7 +88,7 @@ public class EnemyHealth : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("Rock"))
         {
-            Debug.Log("Enemigo colision� con: " + collision.gameObject.name);
+            Debug.Log("Enemigo colisionó con: " + collision.gameObject.name);
             TakeDamage(1);
 
             if (collision.gameObject.CompareTag("Bullet"))
@@ -90,6 +100,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void SetFieldAlpha(float alpha)
     {
+        // Establece la transparencia del campo de fuerza del enemigo.
         if (campoDeFuerzaEnemigo != null)
         {
             Renderer renderer = campoDeFuerzaEnemigo.GetComponent<Renderer>();
@@ -105,6 +116,7 @@ public class EnemyHealth : MonoBehaviour
 
     IEnumerator FadeFieldIn(float duration)
     {
+        // Realiza un fade in en el campo de fuerza.
         Debug.Log("Iniciando FadeFieldIn");
         if (campoDeFuerzaEnemigoSound != null && audioSource != null)
         {
@@ -126,6 +138,7 @@ public class EnemyHealth : MonoBehaviour
 
     IEnumerator FadeFieldOut(float duration)
     {
+        // Realiza un fade out en el campo de fuerza.
         Debug.Log("Iniciando FadeFieldOut");
         float counter = 0f;
         while (counter < duration)

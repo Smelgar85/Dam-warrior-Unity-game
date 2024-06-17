@@ -1,3 +1,8 @@
+/**
+ * MovimientoNave.cs
+ * Este script controla el movimiento de la nave y su interacci贸n con otros objetos en el juego.
+ */
+
 using System.Collections;
 using UnityEngine;
 
@@ -17,11 +22,13 @@ public class MovimientoNave : MonoBehaviour
 
     void Start()
     {
+        // Inicializa la referencia al script VidaNave.
         vidaNave = GetComponent<VidaNave>();
     }
 
     void Update()
     {
+        // Controla el movimiento y la rotaci贸n de la nave.
         float movimientoHorizontal = Input.GetAxis("Horizontal");
         float movimientoVertical = Input.GetAxis("Vertical");
 
@@ -30,10 +37,12 @@ public class MovimientoNave : MonoBehaviour
         nuevaPosicion.y = Mathf.Clamp(nuevaPosicion.y, -5f, 5f);
         transform.position = nuevaPosicion;
 
+        // Ajusta la escala de los motores seg煤n el movimiento horizontal.
         Vector3 escalaObjetivo = movimientoHorizontal > 0 ? escalaJetAcelerado : escalaJetReposo;
         JetEngine1.transform.localScale = Vector3.Lerp(JetEngine1.transform.localScale, escalaObjetivo, velocidadTransicionEscala * Time.deltaTime);
         JetEngine2.transform.localScale = Vector3.Lerp(JetEngine2.transform.localScale, escalaObjetivo, velocidadTransicionEscala * Time.deltaTime);
 
+        // Controla la rotaci贸n de la nave seg煤n el movimiento vertical.
         float rotacionX = movimientoVertical * velocidadRotacion * Time.deltaTime;
         float currentRotacionX = transform.rotation.eulerAngles.x;
         float newRotacionX = currentRotacionX + rotacionX;
@@ -45,6 +54,7 @@ public class MovimientoNave : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Aplica da帽o a la nave al colisionar con un enemigo si no es invulnerable.
         if (!vidaNave.esInvulnerable && collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Nave ha colisionado con: " + collision.gameObject.name);
@@ -52,12 +62,13 @@ public class MovimientoNave : MonoBehaviour
         }
         else if (vidaNave.esInvulnerable)
         {
-            Debug.Log("Colisi髇 ignorada porque la nave es invulnerable");
+            Debug.Log("Colisi贸n ignorada porque la nave es invulnerable");
         }
     }
 
     void ResetearMovimiento()
     {
+        // Resetea la velocidad y rotaci贸n de la nave.
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {

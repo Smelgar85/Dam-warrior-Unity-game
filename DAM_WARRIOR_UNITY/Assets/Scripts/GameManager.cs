@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadSceneZero()
     {
+        // Carga la escena con índice 0.
         SceneController.Instance.LoadScene(0);
     }
 }

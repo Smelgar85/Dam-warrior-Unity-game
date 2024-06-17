@@ -1,3 +1,8 @@
+/**
+ * MovimientoEnemigoZigZag.cs
+ * Este script controla el movimiento en zigzag de los enemigos.
+ */
+
 using System.Collections;
 using UnityEngine;
 
@@ -17,6 +22,7 @@ public class MovimientoEnemigoZigZag : MonoBehaviour
 
     void Start()
     {
+        // Inicializa la posición y parámetros de movimiento vertical.
         startingYPosition = transform.position.y;
         verticalAmplitude = Random.Range(minVerticalAmplitude, maxVerticalAmplitude);
         verticalFrequency = Random.Range(minVerticalFrequency, maxVerticalFrequency);
@@ -24,17 +30,20 @@ public class MovimientoEnemigoZigZag : MonoBehaviour
 
     void Update()
     {
+        // Controla el movimiento y la rotación del enemigo.
         Move();
         Rotate();
     }
 
     void Move()
     {
+        // Mueve el enemigo lateralmente y en zigzag vertical.
         transform.Translate(Vector3.left * lateralSpeed * Time.deltaTime);
 
         float yOffset = Mathf.Sin(Time.time * verticalFrequency) * verticalAmplitude;
         transform.position += Vector3.up * yOffset * Time.deltaTime;
 
+        // Destruye el objeto si se sale de la pantalla.
         if (transform.position.x < -20f)
         {
             Destroy(gameObject);
@@ -43,6 +52,7 @@ public class MovimientoEnemigoZigZag : MonoBehaviour
 
     void Rotate()
     {
+        // Ajusta la rotación del enemigo según su movimiento vertical.
         float verticalMovement = Mathf.Sign(transform.position.y - startingYPosition);
         float targetRotationX = -verticalMovement * maxRotationX;
 

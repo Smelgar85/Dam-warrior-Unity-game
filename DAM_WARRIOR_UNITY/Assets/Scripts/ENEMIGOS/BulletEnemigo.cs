@@ -1,3 +1,8 @@
+/**
+ * BulletEnemigo.cs
+ * Este script controla el comportamiento de las balas enemigas en el juego.
+ */
+
 using UnityEngine;
 
 public class BulletEnemigo : MonoBehaviour
@@ -9,11 +14,13 @@ public class BulletEnemigo : MonoBehaviour
 
     void Awake()
     {
+        // Obtiene la referencia al componente AudioSource.
         audioSource = GetComponent<AudioSource>();
     }
 
     void OnEnable()
     {
+        // Obtiene la referencia al GameController y registra un disparo.
         if (gameController == null)
         {
             gameController = FindObjectOfType<GameController>();
@@ -24,17 +31,19 @@ public class BulletEnemigo : MonoBehaviour
             gameController.RegistrarDisparo(false);
         }
 
+        // Programa el retorno de la bala al pool después de su vida útil.
         Invoke("ReturnToPool", lifetime);
     }
 
     void ReturnToPool()
     {
+        // Devuelve la bala al pool.
         BulletPool.Instance.ReturnEnemyBullet(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log($"BulletEnemigo colision� con: {collision.gameObject.name} con tag: {collision.gameObject.tag}");
+        // Aplica daño a la nave del jugador si colisiona con ella.
         if (collision.gameObject.CompareTag("Player"))
         {
             VidaNave vidanave = collision.gameObject.GetComponent<VidaNave>();
@@ -45,18 +54,14 @@ public class BulletEnemigo : MonoBehaviour
                 PlayHitSound();
             }
 
+            // Devuelve la bala al pool.
             BulletPool.Instance.ReturnEnemyBullet(gameObject);
         }
-        /*
-            else
-        {
-            Debug.Log("Colisi�n ignorada porque no es un jugador");
-        }
-        */
     }
 
     private void PlayHitSound()
     {
+        // Reproduce el sonido de impacto si está configurado.
         Debug.Log("Reproduciendo sonido de impacto");
         if (hitSound != null && audioSource != null)
         {

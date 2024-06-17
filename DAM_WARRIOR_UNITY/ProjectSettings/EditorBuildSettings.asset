@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResumenPartida.unity
     guid: c1f691ae4298ac9428850b0a45beca1b
+  - enabled: 1
+    path: Assets/Scenes/Creditos.unity
+    guid: 458a5b600f05064458ea385d2046d3b8
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 1cdc310dad00d4345af20aa8d8ef7b65, type: 2}

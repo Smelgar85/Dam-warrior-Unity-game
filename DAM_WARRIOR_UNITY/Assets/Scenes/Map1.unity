@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e889b14bcd865ca459b42a770bacd506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 10
+  bulletSpeed: 15
   shootSound: {fileID: 8300000, guid: 541da7c9eb918134d8688b6d8634502b, type: 3}
   specialShootSound: {fileID: 8300000, guid: 3c520eed67d3e3540bb13f19b6f32c97, type: 3}
 --- !u!114 &130160943
@@ -2033,7 +2033,7 @@ MonoBehaviour:
   spaceShipSpawner: {fileID: 598296826}
   bossSpawner: {fileID: 1457498895}
   currentStage: 0
-  timeToNextStage: 10
+  timeToNextStage: 30
   restPeriodDuration: 5
 --- !u!4 &1191914624
 Transform:
