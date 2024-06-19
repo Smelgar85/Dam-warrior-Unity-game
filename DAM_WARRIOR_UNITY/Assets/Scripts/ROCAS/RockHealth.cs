@@ -1,8 +1,3 @@
-/**
- * RockHealth.cs
- * Este script maneja la salud de las rocas, la división en rocas más pequeñas y la reproducción de efectos de sonido y explosión.
- */
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,13 +15,12 @@ public class RockHealth : MonoBehaviour
     public float maxScale = 1.5f; // Valor máximo de la escala.
     private bool hasEnteredScreen = false;
 
-    private GameController gameController;
+    private ScoreManager scoreManager; // Referencia al ScoreManager
 
     void Start()
     {
-        // Inicializa la salud de la roca y obtiene el GameController.
+        // Inicializa la salud de la roca y obtiene el ScoreManager.
         currentHealth = maxHealth;
-        gameController = FindObjectOfType<GameController>();
         Debug.Log("Roca inicializada: " + gameObject.name);
 
         // Verifica si los componentes necesarios están presentes.
@@ -38,6 +32,13 @@ public class RockHealth : MonoBehaviour
             Debug.LogError("Renderer no encontrado en " + gameObject.name);
         if (GetComponent<RockMovement>() == null)
             Debug.LogError("RockMovement script no encontrado en " + gameObject.name);
+
+        // Busca dinámicamente una instancia de ScoreManager en la escena
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogWarning("ScoreManager no encontrado en la escena.");
+        }
     }
 
     void OnBecameVisible()
@@ -59,10 +60,6 @@ public class RockHealth : MonoBehaviour
     {
         // Aplica daño a la roca y verifica si debe destruirse.
         currentHealth -= damage;
-        if (gameController != null)
-        {
-            gameController.RegistrarDanoCausado(damage); // Registrar el daño causado.
-        }
 
         if (currentHealth <= 0)
         {
@@ -122,8 +119,11 @@ public class RockHealth : MonoBehaviour
                 }
             }
 
-            // Actualiza la puntuación en ScoreManager.
-            ScoreManager.Instance.AddScore(30);
+            // Actualiza la puntuación en ScoreManager si está disponible.
+            if (scoreManager != null)
+            {
+                scoreManager.AddScore(30);
+            }
 
             // Destruye la roca.
             Destroy(gameObject);

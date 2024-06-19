@@ -1,8 +1,3 @@
-/**
- * VidaNave.cs
- * Este script maneja la salud y las vidas de la nave, así como la activación de la invulnerabilidad y los efectos visuales.
- */
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +17,8 @@ public class VidaNave : MonoBehaviour
     public string nombreHijoConMeshRenderer = "MODELO_DAM_WARRIOR/MESH_NAVE";
     public bool esInvulnerable = false;
 
+    private ScoreManager scoreManager; // Referencia al ScoreManager
+
     private float tamanoInicialX;
     public float tiempoUltimoDanio;
     public float tiempoCooldown = 2f; // Tiempo de cooldown en segundos.
@@ -30,8 +27,6 @@ public class VidaNave : MonoBehaviour
     public float duracionFadeIn = 1f; // Duración del fade in en segundos.
     public float duracionFadeOut = 1f; // Duración del fade out en segundos.
     public float esperaFadeOut = 1f; // Tiempo de espera antes de iniciar el fade out.
-
-    private GameController gameController;
 
     void Start()
     {
@@ -42,11 +37,12 @@ public class VidaNave : MonoBehaviour
         }
 
         tamanoInicialX = barraDeVida.localScale.x;
-        gameController = FindObjectOfType<GameController>();
 
-        if (gameController == null)
+        // Busca dinámicamente una instancia de ScoreManager en la escena
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
         {
-            Debug.LogWarning("GameController no encontrado en la escena.");
+            Debug.LogWarning("ScoreManager no encontrado en la escena.");
         }
 
         if (campoDeFuerza != null)
@@ -108,13 +104,11 @@ public class VidaNave : MonoBehaviour
     {
         // Reduce la salud de la nave y verifica si debe perder una vida.
         health -= cantidad;
-        ScoreManager.Instance.RegisterDamageTaken(cantidad);
-        health = Mathf.Max(health, 0);
-
-        if (gameController != null)
+        if (scoreManager != null)
         {
-            gameController.RegistrarDanoRecibido(cantidad);
+            scoreManager.RegisterDamageTaken(cantidad);
         }
+        health = Mathf.Max(health, 0);
 
         if (health <= 0)
         {
@@ -171,6 +165,7 @@ public class VidaNave : MonoBehaviour
                 break;
             case 0:
                 LIFE_1.SetActive(false);
+
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 break;
         }
@@ -182,6 +177,7 @@ public class VidaNave : MonoBehaviour
         else
         {
             health = 4; // Resetear la salud.
+            SpawnExplosion();
             ActualizarBarraDeVida(); // Asegurar que la barra de vida se actualiza.
             StartCoroutine(RespawnAndBlink());
         }

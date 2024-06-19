@@ -233,6 +233,8 @@ En la parte superior se encuentran el HUD del jugador, y la acción transcurre e
   Los controles se han hecho de manera que sean sencillos de usar en PC. La configuración de teclas es clásica para juegos actuales. Usando la configuración WASD para el movimiento de la nave, ESPACIO para el disparo y CONTROL izquierda para el disparo especial.
   Con algo de práctica incluso se puede jugar con una sola mano, pero lo más cómodo es usar la mano derecha para controlar el disparo, y la mano izquierda para movernos y el disparo especial.
   Otras configuraciones se probaron por simple curiosidad, pero ésta fue la más cómoda, aunque es una cuestión subjetiva y lo ideal será implementar un sistema de control configurable por el usuario.
+  También se ha implementado control mediante gamepads. Se ha intentado armonizar ambos tipos de control, aunque, personalmente, prefiero el control mediante teclado.
+  ![Controles](img/PAUSA.png)
 
 ### 4.2 - Backend
 
@@ -557,12 +559,12 @@ Aquí se nos presentan las estadísticas de la partida.
 
 ## 6 - Conclusiones
 
-Creo que he cumplido con el objetivo principal que me marqué a la hora de plantear el proyecto, si bien al final no he podido implementar ciertas características que planee en un principio, como son el añadir un pequeño menú de opciones para controlar el nivel de sonido y otras opciones.
+Creo que he cumplido con el objetivo principal que me marqué a la hora de plantear el proyecto y que da título a este TFG, si bien al final no he podido implementar ciertas características que planee en un principio, como son el añadir un pequeño menú de opciones para controlar el nivel de sonido y otras opciones.
 
 Mi objetivo principal era conseguir conectar Unity con una página web que mostrase las estadísticas de cada usuario, usando un sistema de login para cada usuario.
-Creo que dicho objetivo ha sido cumplido con creces, sin embargo hay muchísimas características que planeo implementar a posteriori, como son:
+Creo que dicho objetivo ha sido cumplido con creces, <b>sin embargo hay muchísimas características que planeo implementar a posteriori, como son:</b>
 
-### Flask
+#### Flask
 
 - Implementar un sistema de imágenes de perfil para que cada persona pueda subir su propia imágen
 
@@ -572,7 +574,7 @@ Creo que dicho objetivo ha sido cumplido con creces, sin embargo hay muchísimas
 
 - Implementar un sistema de solicitudes de amistad, esto implicaría modificar la base de datos y añadir un campo de "amistad efectiva" en caso de que la otra persona acepte la solicitud
 
-### Unity
+#### Unity
 
   - Añadir más mapas, con más enemigos y bosses. Tengo varios assets ya desarrollados para ese fin.
 
@@ -584,7 +586,7 @@ Creo que dicho objetivo ha sido cumplido con creces, sin embargo hay muchísimas
 
   - Añadir opciones de sonido, controles y un selector de dificultad.
 
-  - Añadir menú de pausa
+  - Añadir menú de pausa que permita salir de la partida
 
   - Añadir un sistema de "Continue" estilo máquinas arcade, con una cuenta atrás, para comenzar de nuevo o para salir al menú principal
 

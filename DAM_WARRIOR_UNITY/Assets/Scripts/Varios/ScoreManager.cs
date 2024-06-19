@@ -1,8 +1,5 @@
-/**
- * ScoreManager.cs
- * Este script gestiona la puntuación del juego, registra estadísticas de los disparos y daños,
- * y guarda estas estadísticas tanto localmente como en un servidor remoto.
- */
+// Este script gestiona las estadísticas del juego, como la puntuación, los disparos realizados y acertados, el daño infligido y recibido.
+// También permite guardar estas estadísticas y enviarlas a un servidor.
 
 using UnityEngine;
 using TMPro;
@@ -12,7 +9,6 @@ using UnityEngine.Networking;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance { get; private set; }
     private int score = 0;
     private int totalShots = 0;
     private int shotsHit = 0;
@@ -23,61 +19,81 @@ public class ScoreManager : MonoBehaviour
 
     public TMP_Text scoreText;
 
-    void Awake()
-    {
-        // Inicializa la instancia singleton y asegura que no se destruya al cargar una nueva escena.
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
+    // Método llamado al inicio del juego.
     void Start()
     {
-        // Inicializa la puntuación y el tiempo de inicio.
-        UpdateScoreText();
+        Debug.Log("ScoreManager Start");
+        ResetScore();
         startTime = Time.time;
     }
 
+    // Método para reiniciar las estadísticas de puntuación.
+    public void ResetScore()
+    {
+        Debug.Log("ResetScore called");
+        score = 0;
+        totalShots = 0;
+        shotsHit = 0;
+        damageDealt = 0;
+        damageTaken = 0;
+        startTime = Time.time;
+
+        UpdateScoreText();
+    }
+
+    // Método llamado cuando el objeto es habilitado.
+    void OnEnable()
+    {
+        Debug.Log("ScoreManager OnEnable");
+        UpdateScoreText();
+    }
+
+    // Método para añadir puntos a la puntuación actual.
     public void AddScore(int amount)
     {
-        // Añade puntos a la puntuación actual y actualiza el texto de la puntuación.
+        Debug.Log($"AddScore called with amount: {amount}");
         score += amount;
         UpdateScoreText();
     }
 
+    // Método para actualizar el texto con la puntuación actual.
+    private void UpdateScoreText()
+    {
+        Debug.Log($"UpdateScoreText called with score: {score}");
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString();
+        }
+    }
+
+    // Método para registrar un disparo realizado.
     public void RegisterShot()
     {
-        // Registra un disparo realizado.
         totalShots++;
     }
 
+    // Método para registrar un disparo acertado.
     public void RegisterHit()
     {
-        // Registra un disparo acertado.
         shotsHit++;
     }
 
+    // Método para registrar el daño infligido.
     public void RegisterDamageDealt(int amount)
     {
-        // Registra el daño causado.
         damageDealt += amount;
     }
 
+    // Método para registrar el daño recibido.
     public void RegisterDamageTaken(int amount)
     {
-        // Registra el daño recibido.
         damageTaken += amount;
     }
 
+    // Método para guardar las estadísticas del juego localmente y enviarlas al servidor.
     public void SaveGameStatistics()
     {
-        // Guarda las estadísticas del juego en PlayerPrefs y las envía al servidor si el usuario está logueado.
+        Debug.Log("SaveGameStatistics called");
         GameStatistics stats = new GameStatistics(
             DateTime.Now,
             mapName,
@@ -99,18 +115,10 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void UpdateScoreText()
-    {
-        // Actualiza el texto de la puntuación en la interfaz.
-        if (scoreText != null)
-        {
-            scoreText.text = score.ToString();
-        }
-    }
-
+    // Corrutina para enviar las estadísticas al servidor.
     private IEnumerator SendStatisticsToServer(string json, string username, string password)
     {
-        // Envía las estadísticas del juego al servidor.
+        Debug.Log("SendStatisticsToServer called");
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         form.AddField("password", password);
@@ -131,9 +139,9 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    // Método para obtener la puntuación actual.
     public int GetScore()
     {
-        // Retorna la puntuación actual.
         return score;
     }
 }

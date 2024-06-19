@@ -1,14 +1,21 @@
+/**
+ * StageManager.cs
+ * Este script maneja multitud de funciones. Principalmente sirve para gestionar el paso de las distintas etapas de un mapa
+ Pero ha ido engordando con otros métodos como el sistema de pausa, o el finalizar la escena una vez el boss muere.
+ */
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
-    public static StageManager Instance { get; private set; }
-
+    public ScoreManager scoreManager; 
     public RockSpawner rockSpawner;
     public SpaceShipSpawner spaceShipSpawner;
     public BossSpawner bossSpawner;
+    public AudioSource musicAudioSource; 
+    public GameObject canvasPause; 
 
     public enum GameStage
     {
@@ -23,40 +30,48 @@ public class StageManager : MonoBehaviour
     public float restPeriodDuration = 10f;
     private float stageTimer;
     private bool isInRestPeriod = false;
-
-    private GameController gameController;
-
-    void Awake()
-    {
-        // Configura la instancia singleton y asegura que no se destruya al cargar una nueva escena.
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    private bool juegoPausado = false;
 
     void Start()
     {
-        // Inicializa el temporizador de la etapa y busca el GameController.
-        stageTimer = timeToNextStage;
-        FindGameController();
-        UpdateStageSettings();
+        Debug.Log("StageManager Start called");
+
+        // Reinicia el sistema de puntuación al comenzar la escena
+        if (scoreManager != null)
+        {
+            scoreManager.ResetScore();
+        }
+
+        // Reinicia el sistema de spawneo al comenzar la escena
+        ResetStageManager();
+
+        if (canvasPause != null)
+        {
+            canvasPause.SetActive(false);
+        }
     }
 
     void Update()
     {
-        // Verifica si la escena activa es "ResumenPartida" y detiene la actualización si es así.
-        if (SceneManager.GetActiveScene().name == "ResumenPartida")
+        // Verificar si se presiona la tecla ESCAPE en el teclado o START en el gamepad para pausar o reanudar el juego
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
         {
-            return;
+            if (juegoPausado)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
         }
 
-        // Actualiza el temporizador de la etapa y cambia de etapa si es necesario.
+        if (juegoPausado)
+        {
+            return; // No hacer nada si el juego está pausado...
+        }
+
+        // Contador de tiempo para avanzar las etapas del juego
         stageTimer -= Time.deltaTime;
         if (stageTimer <= 0)
         {
@@ -71,9 +86,48 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    void PauseGame()
+    {
+        Time.timeScale = 0f; // Pausar el tiempo en el juego
+        juegoPausado = true;
+
+        // Pausar la música si existe un AudioSource asociado
+        if (musicAudioSource != null && musicAudioSource.isPlaying)
+        {
+            musicAudioSource.Pause();
+        }
+
+        // Activar el canvas de pausa
+        if (canvasPause != null)
+        {
+            canvasPause.SetActive(true);
+        }
+
+        Debug.Log("Juego pausado");
+    }
+
+    void ResumeGame()
+    {
+        Time.timeScale = 1f; // Reanudar el tiempo en el juego
+        juegoPausado = false;
+
+        // Reanudar la música si existe un AudioSource asociado
+        if (musicAudioSource != null && !musicAudioSource.isPlaying)
+        {
+            musicAudioSource.Play();
+        }
+
+        // Desactivar el canvas de pausa
+        if (canvasPause != null)
+        {
+            canvasPause.SetActive(false);
+        }
+
+        Debug.Log("Juego reanudado");
+    }
+
     void StartRestPeriod()
     {
-        // Inicia un período de descanso.
         isInRestPeriod = true;
         stageTimer = restPeriodDuration;
         StopAllSpawners();
@@ -82,7 +136,6 @@ public class StageManager : MonoBehaviour
 
     void EndRestPeriod()
     {
-        // Termina el período de descanso y avanza a la siguiente etapa.
         isInRestPeriod = false;
         AdvanceStage();
         stageTimer = timeToNextStage;
@@ -91,7 +144,6 @@ public class StageManager : MonoBehaviour
 
     void AdvanceStage()
     {
-        // Avanza a la siguiente etapa del juego y actualiza los spawners según la nueva etapa.
         Debug.Log($"Avanzando etapa desde {currentStage}");
         if (currentStage == GameStage.SpawningRocks)
         {
@@ -115,7 +167,6 @@ public class StageManager : MonoBehaviour
 
     void UpdateStageSettings()
     {
-        // Configura los ajustes para la etapa actual y reinicia los spawners.
         Debug.Log($"Configurando etapa: {currentStage}");
         StopAllSpawners();
         switch (currentStage)
@@ -135,48 +186,32 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    void FindGameController()
+    public void FlyingFortressDestroyed()
     {
-        // Busca y asigna el GameController en la escena.
-        gameController = FindObjectOfType<GameController>();
-        if (gameController == null)
+        Debug.Log("Flying Fortress Destroyed");
+        StopAllSpawners();
+
+        // Llamar a SaveGameStatistics del ScoreManager
+        if (scoreManager != null)
         {
-            Debug.LogWarning("GameController no encontrado en la escena.");
+            scoreManager.SaveGameStatistics();
         }
         else
         {
-            Debug.Log("GameController encontrado.");
+            Debug.LogError("ScoreManager no encontrado.");
         }
-    }
 
-    public void FlyingFortressDestroyed()
-    {
-        // Maneja la destrucción de la fortaleza voladora.
-        Debug.Log("Flying Fortress Destroyed");
-        StopAllSpawners();
-        ScoreManager.Instance.SaveGameStatistics();
         StartCoroutine(LoadSummaryScene());
     }
 
     IEnumerator LoadSummaryScene()
     {
-        // Carga la escena de resumen después de un retraso.
         yield return new WaitForSeconds(5f);
         SceneManager.LoadScene("ResumenPartida");
     }
 
-    public void FinalizarPartida()
-    {
-        // Llama a FinalizarPartida en el GameController.
-        if (gameController != null)
-        {
-            gameController.FinalizarPartida();
-        }
-    }
-
     void StopAllSpawners()
     {
-        // Detiene todos los spawners activos.
         StopSpawner(rockSpawner);
         StopSpawner(spaceShipSpawner);
         StopSpawner(bossSpawner);
@@ -184,7 +219,6 @@ public class StageManager : MonoBehaviour
 
     void StopSpawner(MonoBehaviour spawner)
     {
-        // Detiene un spawner específico.
         if (spawner != null)
         {
             spawner.Invoke("StopSpawning", 0);
@@ -193,10 +227,31 @@ public class StageManager : MonoBehaviour
 
     void StartSpawner(MonoBehaviour spawner)
     {
-        // Inicia un spawner específico.
         if (spawner != null)
         {
             spawner.Invoke("StartSpawning", 0);
+        }
+    }
+
+    public void ResetStageManager()
+    {
+        Debug.Log("Reseteando StageManager");
+        currentStage = GameStage.SpawningRocks;
+        stageTimer = timeToNextStage;
+        isInRestPeriod = false;
+
+        // Reiniciar todos los spawners correctamente
+        StartSpawner(rockSpawner);
+        StopSpawner(spaceShipSpawner);
+        StopSpawner(bossSpawner);
+
+        // Asegurar que el tiempo no esté pausado al inicio
+        Time.timeScale = 1f;
+
+        // Desactivar el canvas de pausa si está activado
+        if (canvasPause != null && canvasPause.activeSelf)
+        {
+            canvasPause.SetActive(false);
         }
     }
 }

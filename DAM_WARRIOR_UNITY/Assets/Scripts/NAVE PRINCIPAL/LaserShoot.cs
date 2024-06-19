@@ -1,7 +1,4 @@
-/**
- * LaserShoot.cs
- * Este script maneja el disparo de balas y balas especiales desde la nave.
- */
+// Este script gestiona la mecánica de disparo de un láser y disparos especiales, incluyendo el manejo de puntuaciones y sonidos.
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,29 +13,43 @@ public class LaserShoot : MonoBehaviour
     private Transform escalador;
     private bool isShooting = false;
 
+    private ScoreManager scoreManager;
+
+    // Método llamado al inicio del juego.
     void Start()
     {
         // Inicializa las referencias a los componentes necesarios.
         escalador = GameObject.Find("Escalador").transform;
         audioSource = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
         audioSource2 = GameObject.Find("SFX_SHOOT2").GetComponent<AudioSource>();
+
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager no encontrado en la escena.");
+        }
     }
 
-    void Update()
+    // Método para el disparo normal asociado con una acción de entrada.
+    public void OnShoot(InputAction.CallbackContext context)
     {
-        // Dispara una bala normal cuando se presiona el botón Jump.
-        if (Input.GetButtonDown("Jump"))
+        if (context.performed)
         {
             Shoot();
         }
+    }
 
-        // Dispara una bala especial cuando se presiona el botón Fire1 y la barra de poder está llena.
-        if (Input.GetButtonDown("Fire1") && GameManager.fullPower && !isShooting)
+    // Método para el disparo especial asociado con una acción de entrada.
+    public void OnSpecialShoot(InputAction.CallbackContext context)
+    {
+        // Añade la verificación para GameManager.fullPower
+        if (context.performed && GameManager.fullPower && !isShooting)
         {
             ShootSpecial();
         }
     }
 
+    // Maneja el disparo normal.
     void Shoot()
     {
         // Reproduce el sonido de disparo.
@@ -75,9 +86,19 @@ public class LaserShoot : MonoBehaviour
             return;
         }
         rb.velocity = transform.right * bulletSpeed;
-        ScoreManager.Instance.RegisterShot();
+
+        // Añade la puntuación utilizando el ScoreManager encontrado.
+        if (scoreManager != null)
+        {
+            scoreManager.RegisterShot();
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager no encontrado. No se pudo registrar el disparo.");
+        }
     }
 
+    // Maneja el disparo especial.
     void ShootSpecial()
     {
         // Reproduce el sonido de disparo especial.
@@ -99,12 +120,22 @@ public class LaserShoot : MonoBehaviour
 
         Rigidbody2D rb = specialBullet.GetComponent<Rigidbody2D>();
         rb.velocity = transform.right * bulletSpeed * 3;
-        ScoreManager.Instance.RegisterShot();
+
+        // Añade la puntuación utilizando el ScoreManager encontrado.
+        if (scoreManager != null)
+        {
+            scoreManager.RegisterShot();
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager no encontrado. No se pudo registrar el disparo especial.");
+        }
 
         // Resetea la bandera de disparo después de un corto tiempo.
         Invoke("ResetIsShooting", 0.5f);
     }
 
+    // Método para resetear la bandera de disparo.
     void ResetIsShooting()
     {
         // Permite disparar nuevamente.

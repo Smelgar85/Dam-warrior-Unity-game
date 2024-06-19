@@ -19,7 +19,7 @@ public class LaserShootEnemy : MonoBehaviour
     void Start()
     {
         // Asignar la fuente de audio para el sonido de disparo.
-        audioSource_SFX_SHOOT = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
+        audioSource_SFX_SHOOT = GameObject.Find("SFX_SHOOT2").GetComponent<AudioSource>();
 
         if (audioSource_SFX_SHOOT == null)
         {

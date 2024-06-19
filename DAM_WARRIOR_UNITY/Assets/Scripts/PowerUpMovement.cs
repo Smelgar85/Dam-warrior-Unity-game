@@ -1,3 +1,8 @@
+/**
+ * PowerUpMovement.cs
+ * Este script todavía no implantado servirá para gesitonar el movimiento de los distintos powerups
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

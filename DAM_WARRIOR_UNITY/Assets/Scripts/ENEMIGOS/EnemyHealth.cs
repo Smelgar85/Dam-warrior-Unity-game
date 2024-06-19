@@ -1,8 +1,4 @@
-/**
- * EnemyHealth.cs
- * Este script maneja la salud de los enemigos y su destrucción.
- */
-
+// Este script gestiona la vida y las colisiones de una nave enemiga, incluyendo sus efectos visuales y sonoros.
 using System.Collections;
 using UnityEngine;
 
@@ -18,19 +14,25 @@ public class EnemyHealth : MonoBehaviour
     public float duracionFadeInEn = 1f;
     public float duracionFadeOutEn = 1f;
     public float esperaFadeOutEn = 1f;
-    private bool isDead = false; // Nueva variable de control.
-    private GameController gameController;
+    private bool isDead = false;
+
+    private ScoreManager scoreManager;
 
     void Start()
     {
         // Inicializa referencias y verifica componentes.
         explosionAudioSource = GameObject.Find("SFX_DEATH_ENEMY").GetComponent<AudioSource>();
         audioSource = GetComponent<AudioSource>();
-        gameController = FindObjectOfType<GameController>();
 
         if (campoDeFuerzaEnemigo != null)
         {
             SetFieldAlpha(0f);
+        }
+
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager no encontrado en la escena.");
         }
     }
 
@@ -39,12 +41,7 @@ public class EnemyHealth : MonoBehaviour
         // Aplica daño al enemigo y maneja su muerte si la salud llega a cero.
         if (isDead) return; // Evitar aplicar daño si ya está muerto.
         health -= damageAmount;
-        ScoreManager.Instance.RegisterDamageDealt(damageAmount);
         Debug.Log("Enemy took damage. Current health: " + health);
-        if (gameController != null)
-        {
-            gameController.RegistrarDanoCausado(damageAmount);
-        }
 
         StartCoroutine(FadeFieldIn(duracionFadeInEn));
 
@@ -66,36 +63,21 @@ public class EnemyHealth : MonoBehaviour
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        if (explosionAudioSource != null)
+        if (explosionAudioSource != null && dieSound != null)
         {
-            float originalVolume = explosionAudioSource.volume;
-            explosionAudioSource.volume = 0.5f;
             explosionAudioSource.PlayOneShot(dieSound);
-            explosionAudioSource.volume = originalVolume;
         }
 
-        ScoreManager.Instance.AddScore(50);
+        if (scoreManager != null)
+        {
+            scoreManager.AddScore(50);
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager no encontrado. No se pudo añadir la puntuación.");
+        }
+
         Destroy(gameObject);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Aplica daño al enemigo si colisiona con una bala o una roca.
-        if (collision.gameObject.CompareTag("BulletEnemy"))
-        {
-            return;
-        }
-
-        if (collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("Rock"))
-        {
-            Debug.Log("Enemigo colisionó con: " + collision.gameObject.name);
-            TakeDamage(1);
-
-            if (collision.gameObject.CompareTag("Bullet"))
-            {
-                Destroy(collision.gameObject);
-            }
-        }
     }
 
     private void SetFieldAlpha(float alpha)

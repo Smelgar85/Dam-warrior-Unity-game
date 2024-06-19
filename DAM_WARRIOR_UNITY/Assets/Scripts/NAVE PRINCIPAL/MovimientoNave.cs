@@ -1,10 +1,7 @@
-/**
- * MovimientoNave.cs
- * Este script controla el movimiento de la nave y su interacción con otros objetos en el juego.
- */
+// Este script gestiona el movimiento de una nave espacial, incluyendo la rotación, desplazamiento y efectos visuales de los motores.
 
-using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MovimientoNave : MonoBehaviour
 {
@@ -19,31 +16,30 @@ public class MovimientoNave : MonoBehaviour
     public float velocidadTransicionEscala = 5f;
 
     private VidaNave vidaNave;
+    private Vector2 moveInput;
 
+    // Método llamado al inicio del juego.
     void Start()
     {
-        // Inicializa la referencia al script VidaNave.
         vidaNave = GetComponent<VidaNave>();
     }
 
+    // Método llamado cada frame para actualizar el estado del objeto.
     void Update()
     {
-        // Controla el movimiento y la rotación de la nave.
-        float movimientoHorizontal = Input.GetAxis("Horizontal");
-        float movimientoVertical = Input.GetAxis("Vertical");
-
-        Vector3 nuevaPosicion = transform.position + new Vector3(movimientoHorizontal, movimientoVertical, 0f) * velocidad * Time.deltaTime;
+        // Calcula la nueva posición de la nave basada en la entrada de movimiento.
+        Vector3 nuevaPosicion = transform.position + new Vector3(moveInput.x, moveInput.y, 0f) * velocidad * Time.deltaTime;
         nuevaPosicion.x = Mathf.Clamp(nuevaPosicion.x, -10f, 10f);
         nuevaPosicion.y = Mathf.Clamp(nuevaPosicion.y, -5f, 5f);
         transform.position = nuevaPosicion;
 
-        // Ajusta la escala de los motores según el movimiento horizontal.
-        Vector3 escalaObjetivo = movimientoHorizontal > 0 ? escalaJetAcelerado : escalaJetReposo;
+        // Ajusta la escala de los motores según el input de movimiento.
+        Vector3 escalaObjetivo = moveInput.x != 0 ? escalaJetAcelerado : escalaJetReposo;
         JetEngine1.transform.localScale = Vector3.Lerp(JetEngine1.transform.localScale, escalaObjetivo, velocidadTransicionEscala * Time.deltaTime);
         JetEngine2.transform.localScale = Vector3.Lerp(JetEngine2.transform.localScale, escalaObjetivo, velocidadTransicionEscala * Time.deltaTime);
 
-        // Controla la rotación de la nave según el movimiento vertical.
-        float rotacionX = movimientoVertical * velocidadRotacion * Time.deltaTime;
+        // Calcula y aplica la rotación de la nave.
+        float rotacionX = moveInput.y * velocidadRotacion * Time.deltaTime;
         float currentRotacionX = transform.rotation.eulerAngles.x;
         float newRotacionX = currentRotacionX + rotacionX;
 
@@ -52,23 +48,24 @@ public class MovimientoNave : MonoBehaviour
         transform.rotation = Quaternion.Euler(newRotacionX, 0f, 0f);
     }
 
+    // Método manejado por el Input System para leer la entrada de movimiento.
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+
+    // Método llamado cuando la nave colisiona con otro objeto.
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Aplica daño a la nave al colisionar con un enemigo si no es invulnerable.
         if (!vidaNave.esInvulnerable && collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Nave ha colisionado con: " + collision.gameObject.name);
             vidaNave.AplicarDanio(1);
-        }
-        else if (vidaNave.esInvulnerable)
-        {
-            Debug.Log("Colisión ignorada porque la nave es invulnerable");
         }
     }
 
+    // Resetea el movimiento y rotación de la nave.
     void ResetearMovimiento()
     {
-        // Resetea la velocidad y rotación de la nave.
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {

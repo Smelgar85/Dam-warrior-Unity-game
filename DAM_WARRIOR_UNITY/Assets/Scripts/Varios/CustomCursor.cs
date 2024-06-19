@@ -1,6 +1,6 @@
 /**
  * CustomCursor.cs
- * Este script permite personalizar el cursor del juego y ocultarlo tras un perÃ­odo de inactividad.
+ * Este script permite personalizar el cursor del juego y ocultarlo tras un período de inactividad.
  */
 
 using UnityEngine;
@@ -14,7 +14,7 @@ public class CustomCursor : MonoBehaviour
     public CursorMode cursorMode = CursorMode.Auto; // Modo del cursor.
     public float hideDelay = 2f; // Tiempo de inactividad antes de ocultar el cursor (en segundos).
 
-    private float lastMouseMoveTime; // Ãšltima vez que el mouse se moviÃ³.
+    private float lastMouseMoveTime; // Última vez que el mouse se movió.
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class CustomCursor : MonoBehaviour
 
     void Update()
     {
-        // Detecta si el mouse se mueve y actualiza el tiempo de la Ãºltima actividad.
+        // Detecta si el mouse se mueve y actualiza el tiempo de la última actividad.
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
             lastMouseMoveTime = Time.time;

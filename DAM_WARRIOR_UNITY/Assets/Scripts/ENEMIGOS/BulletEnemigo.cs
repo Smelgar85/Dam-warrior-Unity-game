@@ -10,8 +10,7 @@ public class BulletEnemigo : MonoBehaviour
     public float lifetime = 5f;
     public AudioClip hitSound;
     private AudioSource audioSource;
-    private GameController gameController;
-
+    
     void Awake()
     {
         // Obtiene la referencia al componente AudioSource.
@@ -20,17 +19,6 @@ public class BulletEnemigo : MonoBehaviour
 
     void OnEnable()
     {
-        // Obtiene la referencia al GameController y registra un disparo.
-        if (gameController == null)
-        {
-            gameController = FindObjectOfType<GameController>();
-        }
-
-        if (gameController != null)
-        {
-            gameController.RegistrarDisparo(false);
-        }
-
         // Programa el retorno de la bala al pool después de su vida útil.
         Invoke("ReturnToPool", lifetime);
     }

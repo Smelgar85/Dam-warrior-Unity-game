@@ -20,7 +20,7 @@ public class LaserShootBoss : MonoBehaviour
     void Start()
     {
         // Obtener el componente AudioSource del GameObject "SFX_SHOOT".
-        audioSource_SFX_SHOOT = GameObject.Find("SFX_SHOOT").GetComponent<AudioSource>();
+        audioSource_SFX_SHOOT = GameObject.Find("SFX_SHOOT2").GetComponent<AudioSource>();
     }
 
     void Update()

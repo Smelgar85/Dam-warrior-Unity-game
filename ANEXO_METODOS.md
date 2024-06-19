@@ -1,3 +1,5 @@
+#### NOTA: *<u>ESTE ANEXO HA DE SER ACTUALIZADO</u>* Existen ciertas clases cuyos métodos se han actualizado en el lapso del 18 al 19 de Junio, por lo que pueden no ser del todo exactos.
+
 # BACKEND. Scripts de Unity.
 
 ## PowerUpMovement.cs
@@ -8,53 +10,26 @@
 - `TakeDamage(int damage)`: Reduce la salud del objeto cuando recibe daño.
 - `PlayBreakSound()`: Reproduce un sonido cuando el objeto es destruido.
 
-## SceneController.cs
-**Descripción:** Gestiona las transiciones entre escenas, incluyendo carga, recarga y salida del juego.  
-**Métodos:**
-- `Awake()`: Configura la instancia singleton y asegura que no se destruya al cargar una nueva escena.
-- `LoadScene(int sceneIndex)`: Carga una escena específica según el índice proporcionado.
-- `LoadNextScene()`: Carga la siguiente escena en la secuencia.
-- `ReloadCurrentScene()`: Recarga la escena actual.
-- `QuitGame()`: Sale del juego.
-
 ## StageManager.cs
 **Descripción:** Administra las etapas del juego, incluyendo el avance de etapa, los períodos de descanso y la destrucción de la fortaleza voladora.  
 **Métodos:**
 - `Awake()`: Configura la instancia singleton y asegura que no se destruya al cargar una nueva escena.
-- `Start()`: Inicializa el temporizador de la etapa y busca el GameController.
+- `Start()`: Inicializa el temporizador de la etapa.
 - `Update()`: Actualiza el temporizador de la etapa y cambia de etapa si es necesario.
 - `StartRestPeriod()`: Inicia un período de descanso.
 - `EndRestPeriod()`: Termina el período de descanso y avanza a la siguiente etapa.
 - `AdvanceStage()`: Avanza a la siguiente etapa del juego y actualiza los spawners.
 - `UpdateStageSettings()`: Configura los ajustes para la etapa actual y reinicia los spawners.
-- `FindGameController()`: Busca y asigna el GameController en la escena.
 - `FlyingFortressDestroyed()`: Maneja la destrucción de la fortaleza voladora.
 - `LoadSummaryScene()`: Carga la escena de resumen después de un retraso.
-- `FinalizarPartida()`: Llama a FinalizarPartida en el GameController.
 - `StopAllSpawners()`: Detiene todos los spawners activos.
 - `StopSpawner(MonoBehaviour spawner)`: Detiene un spawner específico.
 - `StartSpawner(MonoBehaviour spawner)`: Inicia un spawner específico.
-
-## GameController.cs
-**Descripción:** Controla y registra las estadísticas del juego, como disparos realizados, daño causado y recibido, y finalización de la partida.  
-**Métodos:**
-- `Start()`: Almacena el tiempo de inicio al comenzar la partida.
-- `RegistrarDisparo(bool acertado)`: Registra un disparo y si fue acertado, incrementa la puntuación.
-- `RegistrarDanoCausado(int dano)`: Registra el daño causado y añade la puntuación correspondiente.
-- `RegistrarDanoRecibido(int dano)`: Registra el daño recibido.
-- `FinalizarPartida()`: Calcula las estadísticas de la partida y las guarda.
-- `GuardarEstadisticas(GameStatistics estadisticas)`: Guarda las estadísticas en PlayerPrefs como JSON.
 
 ## GameManager.cs
 **Descripción:** Proporciona métodos globales, como la carga de la primera escena del juego.  
 **Métodos:**
 - `LoadSceneZero()`: Carga la escena con índice 0.
-
-## MenuInicial.cs
-**Descripción:** Maneja las interacciones en el menú inicial, como iniciar el juego y salir.  
-**Métodos:**
-- `Jugar()`: Carga la siguiente escena en la secuencia.
-- `Salir()`: Sale del juego.
 
 ## LoginManager.cs
 **Descripción:** Gestiona la funcionalidad de inicio de sesión, registro y acceso como invitado en el juego, incluyendo la conexión a un servidor para autenticar y registrar usuarios.  
@@ -190,7 +165,7 @@
 ## RockHealth.cs
 **Descripción:** Maneja la salud de las rocas, la división en rocas más pequeñas y la reproducción de efectos de sonido y explosión.  
 **Métodos:**
-- `Start()`: Inicializa la salud de la roca y obtiene el GameController.
+- `Start()`: Inicializa la salud de la roca.
 - `OnBecameVisible()`: Marca la roca como visible cuando entra en pantalla.
 - `OnBecameInvisible()`: Destruye la roca si se vuelve invisible después de haber sido visible.
 - `TakeDamage(int damage)`: Aplica daño a la roca y verifica si debe destruirse.
@@ -279,7 +254,7 @@
 **Descripción:** Controla el comportamiento de las balas enemigas en el juego.  
 **Métodos:**
 - `Awake()`: Obtiene la referencia al componente AudioSource.
-- `OnEnable()`: Obtiene la referencia al GameController y registra un disparo.
+- `OnEnable()`: Registra un disparo.
 - `ReturnToPool()`: Devuelve la bala al pool.
 - `OnCollisionEnter2D(Collision2D collision)`: Aplica daño a la nave del jugador si colisiona con ella.
 - `PlayHitSound()`: Reproduce el sonido de impacto si está configurado.
@@ -290,7 +265,6 @@
 - `Start()`: Inicializa referencias y verifica componentes.
 - `TakeDamage(int damageAmount)`: Aplica daño al enemigo y maneja su muerte si la salud llega a cero.
 - `Die()`: Maneja la muerte del enemigo.
-- `OnCollisionEnter2D(Collision2D collision)`: Aplica daño al enemigo si colisiona con una bala o una roca.
 - `SetFieldAlpha(float alpha)`: Establece la transparencia del campo de fuerza del enemigo.
 - `FadeFieldIn(float duration)`: Realiza un fade in en el campo de fuerza.
 - `FadeFieldOut(float duration)`: Realiza un fade out en el campo de fuerza.
@@ -314,7 +288,6 @@
 - `TakeDamage(int damageAmount)`: Aplica daño al jefe y maneja su muerte si la salud llega a cero.
 - `Die()`: Maneja la muerte del jefe.
 - `ChangeToSummaryScene()`: Espera unos segundos y luego notifica al StageManager para cambiar de escena.
-- `OnCollisionEnter2D(Collision2D collision)`: Aplica daño al jefe si colisiona con una bala.
 
 ## BossMovement.cs
 **Descripción:** Controla el movimiento del jefe, incluyendo avance inicial y oscilación.  
